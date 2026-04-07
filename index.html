@@ -1,0 +1,3011 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feria Tecnológica</title>
+  <style>
+    :root {
+      --primary: #0B6B3A;
+      --secondary: #4CAF50;
+      --accent-red: #D32F2F;
+      --accent-red-dark: #B71C1C;
+      --light-green: #E8F5E9;
+      --background: #FFFFFF;
+      --section-bg: #F5F5F5;
+      --text: #333333;
+      --ink: #333333;
+      --blue: #4CAF50;
+      --blue-dark: #0B6B3A;
+      --green: #4CAF50;
+      --yellow: #d1f0b9;
+      --red: #D32F2F;
+      --white: #ffffff;
+      --shadow: 0 18px 40px rgba(11, 107, 58, 0.12);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: "Trebuchet MS", "Arial Rounded MT Bold", "Comic Sans MS", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.94), rgba(255,255,255,0) 28%),
+        radial-gradient(circle at bottom right, rgba(232, 245, 233, 0.82), rgba(232,245,233,0) 34%),
+        linear-gradient(160deg, #ffffff 0%, #f5f5f5 55%, #e8f5e9 100%);
+      color: var(--ink);
+      overflow-x: hidden;
+      touch-action: manipulation;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: auto auto 8% -5%;
+      width: 220px;
+      height: 220px;
+      border-radius: 42% 58% 68% 32% / 39% 36% 64% 61%;
+      background: rgba(255,255,255,0.36);
+      filter: blur(1px);
+      pointer-events: none;
+    }
+
+    body::after {
+      inset: 10% -7% auto auto;
+      width: 280px;
+      height: 280px;
+      background: rgba(255,255,255,0.28);
+    }
+
+    button {
+      font: inherit;
+      border: 0;
+      cursor: pointer;
+    }
+
+    .app-shell {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 18px;
+    }
+
+    .topbar {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(10px);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+    }
+
+    .brand {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .brand-badge {
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      font-size: 30px;
+      background: linear-gradient(145deg, #dff2e3, #bfe4c7);
+      box-shadow: inset 0 -4px 0 rgba(255,255,255,0.5);
+    }
+
+    .brand h1,
+    .brand p {
+      margin: 0;
+    }
+
+    .brand h1 {
+      font-size: clamp(1.2rem, 2.5vw, 1.65rem);
+    }
+
+    .brand p {
+      font-size: 0.96rem;
+      opacity: 0.8;
+    }
+
+    .stars-box {
+      min-width: 220px;
+      background: linear-gradient(180deg, #ffffff, #e8f5e9);
+      border-radius: 18px;
+      padding: 12px 16px;
+      box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.75);
+    }
+
+    .stars-label {
+      margin: 0 0 8px;
+      font-size: 0.94rem;
+      font-weight: 700;
+    }
+
+    .stars-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .star {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,0.75);
+      font-size: 18px;
+      transition: transform 0.25s ease, background 0.25s ease;
+    }
+
+    .star.earned {
+      background: #b7e0b9;
+      transform: translateY(-2px) rotate(-5deg);
+    }
+
+    .screen {
+      display: none;
+      animation: rise 0.45s ease;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 26px;
+      align-items: center;
+      min-height: calc(100vh - 170px);
+    }
+
+    .hero-card,
+    .panel,
+    .menu-card,
+    .activity-shell {
+      background: rgba(255,255,255,0.82);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card {
+      padding: 36px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -40px -50px auto;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: rgba(255, 219, 124, 0.28);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #eaf6ff;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .hero-title {
+      margin: 0;
+      font-size: clamp(2.4rem, 6vw, 4.4rem);
+      line-height: 0.98;
+      color: var(--primary);
+    }
+
+    .hero-subtitle {
+      margin: 18px 0 8px;
+      font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+      color: #446454;
+    }
+
+    .hero-note {
+      margin: 0 0 24px;
+      font-size: 1.1rem;
+      max-width: 28ch;
+      line-height: 1.4;
+    }
+
+    .primary-btn,
+    .secondary-btn,
+    .ghost-btn {
+      min-height: 58px;
+      padding: 14px 24px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 1.05rem;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .primary-btn {
+      background: linear-gradient(180deg, #4CAF50, #0B6B3A);
+      color: var(--white);
+      box-shadow: 0 10px 20px rgba(11, 107, 58, 0.24);
+    }
+
+    .secondary-btn {
+      background: linear-gradient(180deg, #dff2e3, #b7e0b9);
+      color: var(--primary);
+      box-shadow: 0 10px 20px rgba(76, 175, 80, 0.18);
+    }
+
+    .ghost-btn {
+      background: rgba(255,255,255,0.8);
+      color: var(--ink);
+      box-shadow: inset 0 0 0 2px rgba(76, 175, 80, 0.18);
+    }
+
+    .primary-btn:hover,
+    .secondary-btn:hover,
+    .ghost-btn:hover,
+    .activity-card:hover,
+    .option-card:hover,
+    .intruder-card:hover,
+    .pair-card:hover,
+    .drag-card:hover,
+    .maze-cell:hover {
+      transform: translateY(-2px);
+    }
+
+    .hero-mascot {
+      position: relative;
+      min-height: 520px;
+      display: grid;
+      place-items: center;
+      padding: 10px;
+    }
+
+    .mascot-stage {
+      position: relative;
+      width: min(100%, 430px);
+      aspect-ratio: 1 / 1;
+      border-radius: 32px;
+      background:
+        radial-gradient(circle at top right, rgba(255,255,255,0.9), rgba(255,255,255,0) 32%),
+        linear-gradient(135deg, #e8f5e9, #ffffff 54%, #dff2e3);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.52);
+      animation: float 5s ease-in-out infinite;
+    }
+
+    .bubble.one {
+      width: 74px;
+      height: 74px;
+      top: 36px;
+      left: 48px;
+    }
+
+    .bubble.two {
+      width: 42px;
+      height: 42px;
+      top: 98px;
+      right: 56px;
+      animation-delay: -1s;
+    }
+
+    .bubble.three {
+      width: 58px;
+      height: 58px;
+      bottom: 50px;
+      left: 70px;
+      animation-delay: -2s;
+    }
+
+    .robot {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -44%);
+      width: 250px;
+      height: 290px;
+    }
+
+    .robot-head {
+      width: 200px;
+      height: 152px;
+      background: linear-gradient(180deg, #fffefd, #d9f0ff);
+      border-radius: 36px;
+      margin: 0 auto;
+      position: relative;
+      box-shadow: inset 0 -8px 0 #b9dcff;
+    }
+
+    .robot-face {
+      position: absolute;
+      inset: 26px 22px 28px;
+      background: linear-gradient(180deg, #7ec3ff, #4797f4);
+      border-radius: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+    }
+
+    .eye {
+      width: 30px;
+      height: 38px;
+      background: #fff;
+      border-radius: 50%;
+      position: relative;
+      animation: blink 4.5s infinite;
+      transform-origin: center center;
+    }
+
+    .eye::after {
+      content: "";
+      position: absolute;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: #24486f;
+      left: 10px;
+      top: 12px;
+    }
+
+    .robot-antenna {
+      width: 12px;
+      height: 44px;
+      background: #89c8ff;
+      border-radius: 10px;
+      position: absolute;
+      top: -28px;
+      left: 94px;
+    }
+
+    .robot-antenna::before {
+      content: "";
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #ffd765;
+      position: absolute;
+      left: -8px;
+      top: -18px;
+      box-shadow: 0 0 0 8px rgba(255, 215, 101, 0.2);
+    }
+
+    .robot-body {
+      width: 172px;
+      height: 110px;
+      background: linear-gradient(180deg, #fffef7, #ffe8b3);
+      margin: 12px auto 0;
+      border-radius: 28px;
+      position: relative;
+      box-shadow: inset 0 -8px 0 #ffd774;
+    }
+
+    .robot-heart {
+      position: absolute;
+      inset: 24px auto auto 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 60px;
+      display: grid;
+      place-items: center;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.75);
+      font-size: 28px;
+    }
+
+    .limb {
+      position: absolute;
+      background: #88cbff;
+      border-radius: 999px;
+    }
+
+    .limb.arm.left {
+      width: 24px;
+      height: 100px;
+      left: 28px;
+      top: 132px;
+      transform: rotate(30deg);
+    }
+
+    .limb.arm.right {
+      width: 24px;
+      height: 100px;
+      right: 28px;
+      top: 132px;
+      transform: rotate(-30deg);
+    }
+
+    .limb.leg.left {
+      width: 24px;
+      height: 84px;
+      left: 82px;
+      bottom: 0;
+      transform: rotate(8deg);
+    }
+
+    .limb.leg.right {
+      width: 24px;
+      height: 84px;
+      right: 82px;
+      bottom: 0;
+      transform: rotate(-8deg);
+    }
+
+    .speech-card {
+      position: absolute;
+      right: 12px;
+      top: 18px;
+      background: rgba(255,255,255,0.92);
+      border-radius: 20px;
+      padding: 14px 16px;
+      width: 170px;
+      box-shadow: var(--shadow);
+      font-weight: 800;
+      text-align: center;
+      color: var(--primary);
+    }
+
+    .speech-card::after {
+      content: "";
+      position: absolute;
+      bottom: -16px;
+      left: 26px;
+      border: 10px solid transparent;
+      border-top-color: rgba(255,255,255,0.92);
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .panel {
+      padding: 24px;
+      margin-bottom: 18px;
+    }
+
+    .panel h2,
+    .panel p {
+      margin: 0;
+    }
+
+    .panel p {
+      margin-top: 10px;
+      font-size: 1.02rem;
+      opacity: 0.86;
+    }
+
+    .activity-card {
+      text-align: left;
+      padding: 18px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.86);
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease;
+      display: grid;
+      gap: 14px;
+    }
+
+    .activity-preview {
+      height: 120px;
+      border-radius: 22px;
+      display: grid;
+      place-items: center;
+      font-size: 3rem;
+      overflow: hidden;
+    }
+
+    .preview-1 { background: linear-gradient(135deg, #fff1bf, #ffd4eb); }
+    .preview-2 { background: linear-gradient(135deg, #d8f8ff, #cfe1ff); }
+    .preview-3 { background: linear-gradient(135deg, #fff2d7, #d8ffe6); }
+    .preview-4 { background: linear-gradient(135deg, #fbe4ff, #ffefcb); }
+    .preview-5 { background: linear-gradient(135deg, #def8ff, #fff1c9); }
+
+    .activity-card h3,
+    .activity-card p {
+      margin: 0;
+    }
+
+    .card-status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 38px;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-weight: 800;
+      background: var(--light-green);
+    }
+
+    .status-pill.done {
+      background: #dff2e3;
+      color: var(--primary);
+    }
+
+    .activity-shell {
+      padding: 18px;
+      min-height: 680px;
+    }
+
+    .activity-header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .activity-header h2,
+    .activity-header p {
+      margin: 0;
+    }
+
+    .activity-controls {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .activity-stage {
+      padding: 18px;
+      border-radius: 24px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.95), rgba(245,245,245,0.95)),
+        linear-gradient(135deg, #ffffff, #e8f5e9);
+      min-height: 540px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .activity-stage.mistake {
+      animation: softShake 0.34s ease;
+      box-shadow: inset 0 0 0 4px rgba(246, 180, 168, 0.55);
+    }
+
+    .activity-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--light-green);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .feedback-box {
+      margin-top: 16px;
+      min-height: 58px;
+      border-radius: 20px;
+      padding: 14px 18px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      text-align: center;
+      background: rgba(255,255,255,0.8);
+      box-shadow: inset 0 0 0 2px rgba(76, 175, 80, 0.14);
+    }
+
+    .feedback-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 auto;
+      font-size: 1rem;
+      font-weight: 900;
+      background: rgba(255,255,255,0.82);
+    }
+
+    .feedback-box.success {
+      background: var(--light-green);
+      color: var(--primary);
+    }
+
+    .feedback-box.error {
+      background: rgba(211, 47, 47, 0.08);
+      color: var(--accent-red-dark);
+      box-shadow: inset 0 0 0 2px rgba(211, 47, 47, 0.28);
+    }
+
+    .feedback-box.info {
+      background: #f0f8f1;
+      color: var(--primary);
+    }
+
+    .celebration {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .celebration.show {
+      display: flex;
+    }
+
+    .celebration::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.18), rgba(255,255,255,0.74));
+      z-index: 0;
+    }
+
+    .celebration-card {
+      position: relative;
+      z-index: 3;
+      min-width: min(88%, 420px);
+      padding: 26px 24px;
+      border-radius: 28px;
+      background: rgba(255,255,255,0.96);
+      box-shadow: 0 20px 40px rgba(11, 107, 58, 0.18);
+      text-align: center;
+      border: 3px solid rgba(76, 175, 80, 0.18);
+      animation: popIn 0.35s ease;
+    }
+
+    .celebration-card h3,
+    .celebration-card p {
+      margin: 0;
+    }
+
+    .celebration-card h3 {
+      color: var(--primary);
+      font-size: clamp(1.6rem, 4vw, 2.3rem);
+      line-height: 1.05;
+    }
+
+    .celebration-card p {
+      margin-top: 10px;
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .burst {
+      position: absolute;
+      z-index: 1;
+      animation: burst 1.3s ease forwards;
+    }
+
+    .burst.dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .burst.ribbon {
+      width: 10px;
+      height: 44px;
+      border-radius: 999px;
+    }
+
+    .burst.paper {
+      width: 18px;
+      height: 12px;
+      border-radius: 4px;
+      transform: rotate(16deg);
+    }
+
+    .streamer {
+      position: absolute;
+      top: -24px;
+      width: 14px;
+      height: 120px;
+      border-radius: 999px;
+      z-index: 1;
+      transform-origin: top center;
+      animation: streamerDrop 1.5s ease forwards;
+      opacity: 0.92;
+    }
+
+    .mistake-signal {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.96);
+      border: 3px solid rgba(211, 47, 47, 0.3);
+      box-shadow: 0 14px 28px rgba(183, 28, 28, 0.16);
+      animation: popIn 0.24s ease, fadeMistake 1s ease forwards;
+    }
+
+    .mistake-eye {
+      width: 42px;
+      height: 26px;
+      border: 3px solid var(--accent-red);
+      border-radius: 100px / 70px;
+      position: relative;
+      background: #fffafa;
+    }
+
+    .mistake-eye::before {
+      content: "";
+      position: absolute;
+      inset: 50% auto auto 50%;
+      width: 10px;
+      height: 10px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: var(--accent-red-dark);
+    }
+
+    .mistake-eye::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 54px;
+      height: 3px;
+      transform: translate(-50%, -50%) rotate(-22deg);
+      background: var(--accent-red);
+      border-radius: 999px;
+    }
+
+    .mistake-text {
+      color: var(--accent-red-dark);
+      font-weight: 900;
+      font-size: 0.96rem;
+      white-space: nowrap;
+    }
+
+    .pair-board {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 100px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .pair-column {
+      display: grid;
+      gap: 14px;
+    }
+
+    .pair-card,
+    .option-card,
+    .intruder-card,
+    .drag-card {
+      min-height: 104px;
+      border-radius: 24px;
+      border: 4px solid transparent;
+      background: var(--white);
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      position: relative;
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+      user-select: none;
+    }
+
+    .pair-card.selected,
+    .option-card.selected,
+    .intruder-card.selected,
+    .drag-card.selected {
+      border-color: var(--blue);
+      background: #f0f8f1;
+    }
+
+    .pair-card.matched,
+    .option-card.correct,
+    .intruder-card.correct,
+    .drag-card.done {
+      border-color: #8bd39b;
+      background: #effff3;
+    }
+
+    .pair-card.shake,
+    .option-card.wrong,
+    .intruder-card.wrong,
+    .drop-zone.wrong {
+      animation: shake 0.28s ease;
+    }
+
+    .option-card.wrong,
+    .intruder-card.wrong,
+    .drop-zone.wrong,
+    .pair-card.shake {
+      border-color: rgba(211, 47, 47, 0.42);
+      box-shadow: 0 0 0 6px rgba(211, 47, 47, 0.12);
+      background: rgba(211, 47, 47, 0.05);
+    }
+
+    .icon-ball {
+      width: 88px;
+      height: 88px;
+      border-radius: 20px;
+      overflow: hidden;
+      flex: 0 0 auto;
+      background: var(--section-bg);
+      box-shadow: inset 0 0 0 2px rgba(76, 175, 80, 0.12);
+    }
+
+    .icon-ball img,
+    .preview-photo,
+    .sequence-photo,
+    .hero-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .preview-stack {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      width: 100%;
+      height: 100%;
+      padding: 12px;
+    }
+
+    .preview-stack.two {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .preview-tile {
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(11, 107, 58, 0.12);
+      background: #fff;
+    }
+
+    .pair-text strong,
+    .pair-text span {
+      display: block;
+    }
+
+    .pair-text strong {
+      font-size: 1.06rem;
+    }
+
+    .pair-text span {
+      opacity: 0.72;
+      margin-top: 4px;
+      font-size: 0.95rem;
+    }
+
+    .pair-lines {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .pair-column,
+    .center-column {
+      position: relative;
+      z-index: 1;
+    }
+
+    .center-column {
+      min-height: 100%;
+    }
+
+    .line-label {
+      position: sticky;
+      top: 24px;
+      text-align: center;
+      background: rgba(255,255,255,0.76);
+      border-radius: 18px;
+      padding: 12px 8px;
+      font-weight: 800;
+    }
+
+    .sequence-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(90px, 1fr));
+      gap: 14px;
+      margin: 12px 0 20px;
+    }
+
+    .sequence-tile {
+      min-height: 130px;
+      border-radius: 26px;
+      background: rgba(255,255,255,0.92);
+      box-shadow: var(--shadow);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 12px;
+      font-weight: 800;
+      font-size: 1rem;
+    }
+
+    .sequence-photo {
+      width: 100%;
+      height: 88px;
+      border-radius: 18px;
+      margin-bottom: 10px;
+      box-shadow: inset 0 0 0 2px rgba(76, 175, 80, 0.12);
+    }
+
+    .sequence-tile.blank {
+      border: 4px dashed #99cf9f;
+      background: var(--light-green);
+    }
+
+    .options-grid,
+    .intruder-grid,
+    .drag-source,
+    .memory-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+    }
+
+    .option-card,
+    .intruder-card {
+      justify-content: center;
+      text-align: center;
+      flex-direction: column;
+      min-height: 180px;
+      padding: 18px 12px;
+    }
+
+    .memory-card {
+      min-height: 180px;
+      border-radius: 24px;
+      border: 4px solid transparent;
+      background: var(--white);
+      box-shadow: var(--shadow);
+      padding: 12px;
+      position: relative;
+      perspective: 900px;
+      transform-style: preserve-3d;
+      transition: transform 0.45s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .memory-card.flipped {
+      transform: rotateY(180deg) translateY(-2px);
+    }
+
+    .memory-card.matched {
+      border-color: rgba(76, 175, 80, 0.35);
+      box-shadow: 0 0 0 6px rgba(76, 175, 80, 0.12);
+    }
+
+    .memory-face {
+      position: absolute;
+      inset: 12px;
+      border-radius: 18px;
+      backface-visibility: hidden;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .memory-face.front {
+      background: linear-gradient(180deg, #ffffff, var(--light-green));
+      transform: rotateY(180deg);
+      flex-direction: column;
+      gap: 10px;
+      padding: 12px;
+    }
+
+    .memory-face.back {
+      background: linear-gradient(180deg, var(--secondary), var(--primary));
+      color: #fff;
+      flex-direction: column;
+      gap: 8px;
+      font-weight: 900;
+      font-size: 1.2rem;
+      box-shadow: inset 0 -8px 0 rgba(255,255,255,0.14);
+    }
+
+    .memory-back-dot {
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.22);
+      display: grid;
+      place-items: center;
+      font-size: 1.8rem;
+    }
+
+    .memory-front-photo {
+      width: 100%;
+      height: 104px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: inset 0 0 0 2px rgba(76, 175, 80, 0.12);
+    }
+
+    .memory-front-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .memory-preview-note {
+      background: rgba(255,255,255,0.9);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 900;
+      color: var(--primary);
+      box-shadow: var(--shadow);
+    }
+
+    .option-card .icon-ball,
+    .intruder-card .icon-ball {
+      width: 112px;
+      height: 112px;
+    }
+
+    .maze-wrap {
+      display: grid;
+      grid-template-columns: minmax(280px, 560px) 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .maze-panel {
+      background: rgba(255,255,255,0.86);
+      border-radius: 28px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .maze-board {
+      display: grid;
+      grid-template-columns: repeat(8, minmax(34px, 1fr));
+      gap: 6px;
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 10px;
+      background: #d7ead8;
+      border-radius: 24px;
+      touch-action: none;
+      user-select: none;
+    }
+
+    .maze-cell {
+      aspect-ratio: 1 / 1;
+      border-radius: 14px;
+      border: 0;
+      position: relative;
+      transition: transform 0.15s ease, background 0.15s ease, outline 0.15s ease;
+    }
+
+    .maze-cell.wall {
+      background: #aebeb0;
+      opacity: 0.9;
+    }
+
+    .maze-cell.path {
+      background: #fffef8;
+      box-shadow: inset 0 -3px 0 rgba(11, 107, 58, 0.08);
+    }
+
+    .maze-cell.trail {
+      background: #bfe4c7;
+    }
+
+    .maze-cell.current {
+      outline: 4px solid var(--secondary);
+      z-index: 1;
+    }
+
+    .maze-cell.start {
+      background: #d7f0cf;
+    }
+
+    .maze-cell.goal {
+      background: #f0f7cc;
+    }
+
+    .maze-cell .maze-mark {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-size: 0.82rem;
+      font-weight: 900;
+      color: var(--primary);
+      text-align: center;
+      line-height: 1;
+      padding: 4px;
+    }
+
+    .maze-chip {
+      display: inline-grid;
+      place-items: center;
+      width: 78%;
+      height: 78%;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: 0 6px 14px rgba(11, 107, 58, 0.12);
+    }
+
+    .maze-chip.start-chip {
+      border: 3px solid rgba(76, 175, 80, 0.18);
+      color: var(--primary);
+      font-size: 0.78rem;
+      font-weight: 900;
+    }
+
+    .maze-chip.goal-chip {
+      border: 3px solid var(--secondary);
+      background: linear-gradient(180deg, #ffffff, #f3faea);
+      color: var(--primary);
+    }
+
+    .goal-icon {
+      width: 72%;
+      height: 50%;
+      border-radius: 10px 10px 8px 8px;
+      background: linear-gradient(180deg, #d7f0cf, #9ad08f);
+      border: 3px solid var(--primary);
+      position: relative;
+    }
+
+    .goal-icon::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -16px;
+      width: 20px;
+      height: 8px;
+      transform: translateX(-50%);
+      background: var(--primary);
+      border-radius: 8px;
+    }
+
+    .goal-icon::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -10px;
+      width: 36px;
+      height: 6px;
+      transform: translateX(-50%);
+      background: #7eb68a;
+      border-radius: 999px;
+    }
+
+    .goal-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      min-width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      background: var(--secondary);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 0.7rem;
+      font-weight: 900;
+      box-shadow: 0 4px 10px rgba(11, 107, 58, 0.16);
+    }
+
+    .maze-robot-token {
+      width: 78%;
+      height: 78%;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #ffffff, #d7f0cf);
+      border: 3px solid var(--secondary);
+      position: relative;
+      box-shadow: 0 6px 14px rgba(11, 107, 58, 0.12);
+    }
+
+    .maze-robot-token::before {
+      content: "";
+      position: absolute;
+      top: -9px;
+      left: 50%;
+      width: 6px;
+      height: 12px;
+      transform: translateX(-50%);
+      background: var(--primary);
+      border-radius: 999px;
+    }
+
+    .maze-robot-token::after {
+      content: "";
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      width: 14px;
+      height: 14px;
+      transform: translateX(-50%);
+      background: #ffcf6d;
+      border-radius: 50%;
+      box-shadow: 0 0 0 4px rgba(255, 207, 109, 0.18);
+    }
+
+    .maze-robot-face {
+      position: absolute;
+      inset: 16% 12% 12%;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #e8f5e9, #bfe4c7);
+      display: grid;
+      place-items: center;
+    }
+
+    .maze-robot-eyes {
+      display: flex;
+      gap: 10px;
+      margin-top: 2px;
+    }
+
+    .maze-robot-eyes span {
+      width: 8px;
+      height: 12px;
+      border-radius: 999px;
+      background: var(--primary);
+      display: block;
+    }
+
+    .maze-robot-smile {
+      width: 18px;
+      height: 10px;
+      border-bottom: 3px solid var(--primary);
+      border-radius: 0 0 12px 12px;
+      margin: 4px auto 0;
+    }
+
+    .maze-side {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .maze-note {
+      background: rgba(255,255,255,0.86);
+      border-radius: 24px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .maze-mini {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .mini-pill {
+      background: rgba(255,255,255,0.84);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 800;
+    }
+
+    .drop-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .drop-zone {
+      min-height: 220px;
+      border-radius: 28px;
+      padding: 16px;
+      background: rgba(255,255,255,0.76);
+      border: 4px dashed #9fcba7;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .drop-zone.active {
+      background: var(--light-green);
+      border-color: var(--secondary);
+    }
+
+    .drop-zone.correct {
+      background: #effff3;
+      border-color: #8ad39a;
+    }
+
+    .drop-zone h3,
+    .drop-zone p {
+      margin: 0;
+      text-align: center;
+    }
+
+    .drop-zone p {
+      margin-top: 6px;
+      opacity: 0.75;
+    }
+
+    .drop-stack {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .drag-card {
+      cursor: grab;
+      touch-action: none;
+    }
+
+    .drag-card.dragging {
+      opacity: 0.45;
+    }
+
+    .drag-ghost {
+      position: fixed;
+      z-index: 1000;
+      width: 180px;
+      pointer-events: none;
+      transform: translate(-50%, -50%) rotate(-4deg);
+      box-shadow: 0 18px 28px rgba(53, 80, 107, 0.26);
+    }
+
+    .count-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #eef6ee;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-weight: 800;
+    }
+
+    .credits-panel {
+      margin-top: 18px;
+      background: rgba(255,255,255,0.86);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 18px 20px;
+    }
+
+    .credits-panel summary {
+      cursor: pointer;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .credits-list {
+      margin: 14px 0 0;
+      padding-left: 18px;
+      display: grid;
+      gap: 8px;
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+
+    .credits-list a {
+      color: var(--primary);
+    }
+
+    .menu-actions {
+      margin-top: 18px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    @keyframes blink {
+      0%, 47%, 52%, 100% { transform: scaleY(1); }
+      49% { transform: scaleY(0.08); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-4px); }
+      75% { transform: translateX(4px); }
+    }
+
+    @keyframes softShake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-5px); }
+      40% { transform: translateX(5px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
+
+    @keyframes burst {
+      0% {
+        opacity: 0;
+        transform: translateY(8px) scale(0.6);
+      }
+      20% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--x), var(--y)) scale(1.35) rotate(18deg);
+      }
+    }
+
+    @keyframes popIn {
+      from {
+        opacity: 0;
+        transform: scale(0.82);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes streamerDrop {
+      0% {
+        opacity: 0;
+        transform: translateY(-30px) rotate(var(--rot));
+      }
+      15% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(180px) rotate(calc(var(--rot) * 1.45));
+      }
+    }
+
+    @keyframes fadeMistake {
+      0%, 72% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-mascot {
+        min-height: 420px;
+      }
+
+      .pair-board {
+        grid-template-columns: 1fr;
+      }
+
+      .center-column {
+        display: none;
+      }
+
+      .pair-lines {
+        display: none;
+      }
+
+      .drop-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .app-shell {
+        padding: 12px;
+      }
+
+      .topbar {
+        padding: 14px;
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .stars-box {
+        min-width: auto;
+      }
+
+      .hero-card,
+      .panel,
+      .activity-shell {
+        padding: 18px;
+      }
+
+      .activity-stage {
+        padding: 14px;
+      }
+
+      .sequence-row {
+        grid-template-columns: repeat(2, minmax(120px, 1fr));
+      }
+
+      .maze-wrap {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-badge">FT</div>
+        <div>
+          <h1>Feria Tecnológica</h1>
+          <p>Juego educativo para 1° Básico</p>
+        </div>
+      </div>
+      <div class="stars-box">
+        <p class="stars-label">Tus estrellas</p>
+        <div class="stars-row" id="starsRow"></div>
+      </div>
+    </header>
+
+    <main>
+      <section class="screen active" id="homeScreen">
+        <div class="hero">
+          <div class="hero-card">
+            <div class="eyebrow">Aprende jugando</div>
+            <h2 class="hero-title">Feria<br />Tecnológica</h2>
+            <p class="hero-subtitle">1° Básico</p>
+            <p class="hero-note">Observa, une, descubre y juega con inventos de antes y de ahora.</p>
+            <button class="primary-btn" id="startButton">Comenzar</button>
+          </div>
+
+          <div class="hero-mascot">
+            <div class="mascot-stage">
+              <div class="speech-card">¡Vamos a jugar!</div>
+              <div class="bubble one"></div>
+              <div class="bubble two"></div>
+              <div class="bubble three"></div>
+              <div class="robot" aria-hidden="true">
+                <div class="robot-head">
+                  <div class="robot-antenna"></div>
+                  <div class="robot-face">
+                    <div class="eye"></div>
+                    <div class="eye"></div>
+                  </div>
+                </div>
+                <div class="limb arm left"></div>
+                <div class="limb arm right"></div>
+                <div class="robot-body">
+                  <div class="robot-heart">ON</div>
+                </div>
+                <div class="limb leg left"></div>
+                <div class="limb leg right"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="menuScreen">
+        <div class="panel">
+          <h2>Elige una actividad</h2>
+          <p>Haz una actividad a la vez y gana una estrella cuando la completes.</p>
+        </div>
+        <div class="menu-grid" id="menuGrid"></div>
+        <details class="credits-panel">
+          <summary>Créditos de imágenes</summary>
+          <ul class="credits-list" id="creditsList"></ul>
+        </details>
+      </section>
+
+      <section class="screen" id="activityScreen">
+        <div class="activity-shell">
+          <div class="activity-header">
+            <div>
+              <h2 id="activityTitle">Actividad</h2>
+              <p id="activitySubtitle">Juega y aprende</p>
+            </div>
+            <div class="activity-controls">
+              <button class="ghost-btn" id="menuButton">Volver al menú</button>
+              <button class="secondary-btn" id="restartButton">Reiniciar</button>
+            </div>
+          </div>
+          <div class="activity-stage" id="activityStage"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const imageLibrary = {
+      oldPhone: { src: "assets/images/old-phone.jpg", alt: "Teléfono antiguo" },
+      featurePhone: { src: "assets/images/feature-phone.jpg", alt: "Celular con botones" },
+      smartphone: { src: "assets/images/smartphone.jpg", alt: "Smartphone" },
+      digitalCamera: { src: "assets/images/new-camera.jpg", alt: "Cámara digital" },
+      typewriter: { src: "assets/images/typewriter.jpg", alt: "Máquina de escribir" },
+      laptop: { src: "assets/images/laptop.jpg", alt: "Notebook" },
+      oldTv: { src: "assets/images/old-tv.jpg", alt: "Televisor antiguo" },
+      monitor: { src: "assets/images/monitor.jpg", alt: "Pantalla moderna" },
+      oldCamera: { src: "assets/images/old-camera.jpg", alt: "Cámara antigua" },
+      banana: { src: "assets/images/banana.jpg", alt: "Plátano" },
+      apple: { src: "assets/images/apple.jpg", alt: "Manzana" },
+      soccerBall: { src: "assets/images/soccer-ball.jpg", alt: "Pelota" }
+    };
+
+    const imageCredits = [
+      { name: "Very old telephone, pic1", href: "https://commons.wikimedia.org/wiki/File:Very_old_telephone,_pic1.JPG" },
+      { name: "Feature-phone", href: "https://commons.wikimedia.org/wiki/File:Feature-phone.jpg" },
+      { name: "Smartphone Use", href: "https://commons.wikimedia.org/wiki/File:Smartphone_Use.jpg" },
+      { name: "Digital camera", href: "https://commons.wikimedia.org/wiki/File:Digital_camera_icon.png" },
+      { name: "Old typewriter (28066454506)", href: "https://commons.wikimedia.org/wiki/File:Old_typewriter_(28066454506).jpg" },
+      { name: "Laptop image", href: "https://commons.wikimedia.org/wiki/File:Laptop_image.jpg" },
+      { name: "Old TV", href: "https://commons.wikimedia.org/wiki/File:Old_TV.jpg" },
+      { name: "Computer monitor", href: "https://commons.wikimedia.org/wiki/File:Computer_monitor.jpg" },
+      { name: "Vintage camera", href: "https://commons.wikimedia.org/wiki/File:Vintage_camera.jpg" },
+      { name: "A Banana", href: "https://commons.wikimedia.org/wiki/File:A_Banana.jpg" },
+      { name: "Apple fruit", href: "https://commons.wikimedia.org/wiki/File:Apple_fruit.jpg" },
+      { name: "Soccer ball", href: "https://commons.wikimedia.org/wiki/File:Soccer_ball.jpg" }
+    ];
+
+    const activities = [
+      {
+        id: "match",
+        title: "Relaciona",
+        subtitle: "Rondas variadas",
+        menuTitle: "Relaciona objetos",
+        menuText: "Une pares correctos en distintas rondas.",
+        previewType: "two",
+        previewImages: [imageLibrary.oldPhone, imageLibrary.featurePhone],
+        previewClass: "preview-1"
+      },
+      {
+        id: "maze",
+        title: "Laberinto",
+        subtitle: "Ayuda al robot",
+        menuTitle: "Laberinto tecnológico",
+        menuText: "Lleva al robot hasta el computador.",
+        previewType: "two",
+        previewImages: [imageLibrary.laptop, imageLibrary.monitor],
+        previewClass: "preview-2"
+      },
+      {
+        id: "sequence",
+        title: "Secuencia",
+        subtitle: "Patrones y series",
+        menuTitle: "Completa la secuencia",
+        menuText: "Busca qué dibujo falta en cada serie.",
+        previewType: "three",
+        previewImages: [imageLibrary.oldPhone, imageLibrary.featurePhone, imageLibrary.monitor],
+        previewClass: "preview-3"
+      },
+      {
+        id: "memory",
+        title: "Memoria",
+        subtitle: "Busca el par",
+        menuTitle: "Busca el par",
+        menuText: "Da vuelta cartas y encuentra las parejas.",
+        previewType: "three",
+        previewImages: [imageLibrary.oldPhone, imageLibrary.oldPhone, imageLibrary.laptop],
+        previewClass: "preview-4"
+      },
+      {
+        id: "drag",
+        title: "Arrastra",
+        subtitle: "Clasifica y juega",
+        menuTitle: "Arrastrar y soltar",
+        menuText: "Cambia de categorías en cada ronda.",
+        previewType: "three",
+        previewImages: [imageLibrary.oldTv, imageLibrary.laptop, imageLibrary.typewriter],
+        previewClass: "preview-5"
+      }
+    ];
+
+    const matchRounds = [
+      {
+        title: "Ronda única",
+        prompt: "Une los dibujos de antes con los de ahora.",
+        pairs: [
+          { id: "phone", leftImage: imageLibrary.oldPhone, leftLabel: "Teléfono antiguo", rightImage: imageLibrary.featurePhone, rightLabel: "Celular" },
+          { id: "typewriter", leftImage: imageLibrary.typewriter, leftLabel: "Máquina de escribir", rightImage: imageLibrary.laptop, rightLabel: "Notebook" },
+          { id: "tv", leftImage: imageLibrary.oldTv, leftLabel: "Televisor antiguo", rightImage: imageLibrary.monitor, rightLabel: "Pantalla moderna" },
+          { id: "camera", leftImage: imageLibrary.oldCamera, leftLabel: "Cámara antigua", rightImage: imageLibrary.digitalCamera, rightLabel: "Cámara digital" }
+        ]
+      }
+    ];
+
+    const sequenceRounds = [
+      {
+        prompt: "Busca el dibujo que sigue el patrón.",
+        tiles: [
+          { image: imageLibrary.oldPhone, label: "Teléfono antiguo" },
+          { image: imageLibrary.featurePhone, label: "Celular" },
+          { image: imageLibrary.oldPhone, label: "Teléfono antiguo" },
+          null
+        ],
+        answer: { image: imageLibrary.featurePhone, label: "Celular" },
+        options: [
+          { image: imageLibrary.featurePhone, label: "Celular" },
+          { image: imageLibrary.monitor, label: "Pantalla moderna" },
+          { image: imageLibrary.banana, label: "Plátano" }
+        ]
+      },
+      {
+        prompt: "Completa la serie de cámaras.",
+        tiles: [
+          { image: imageLibrary.oldCamera, label: "Cámara antigua" },
+          { image: imageLibrary.digitalCamera, label: "Cámara digital" },
+          null,
+          { image: imageLibrary.digitalCamera, label: "Cámara digital" }
+        ],
+        answer: { image: imageLibrary.oldCamera, label: "Cámara antigua" },
+        options: [
+          { image: imageLibrary.oldCamera, label: "Cámara antigua" },
+          { image: imageLibrary.featurePhone, label: "Celular" },
+          { image: imageLibrary.apple, label: "Manzana" }
+        ]
+      },
+      {
+        prompt: "Mira cómo se repite la idea.",
+        tiles: [
+          { image: imageLibrary.typewriter, label: "Máquina de escribir" },
+          { image: imageLibrary.laptop, label: "Notebook" },
+          { image: imageLibrary.typewriter, label: "Máquina de escribir" },
+          null
+        ],
+        answer: { image: imageLibrary.laptop, label: "Notebook" },
+        options: [
+          { image: imageLibrary.laptop, label: "Notebook" },
+          { image: imageLibrary.oldTv, label: "Televisor antiguo" },
+          { image: imageLibrary.oldPhone, label: "Teléfono antiguo" }
+        ]
+      },
+      {
+        prompt: "Ahora falta el primero.",
+        tiles: [
+          null,
+          { image: imageLibrary.monitor, label: "Pantalla moderna" },
+          { image: imageLibrary.oldTv, label: "Televisor antiguo" },
+          { image: imageLibrary.monitor, label: "Pantalla moderna" }
+        ],
+        answer: { image: imageLibrary.oldTv, label: "Televisor antiguo" },
+        options: [
+          { image: imageLibrary.oldTv, label: "Televisor antiguo" },
+          { image: imageLibrary.digitalCamera, label: "Cámara digital" },
+          { image: imageLibrary.soccerBall, label: "Pelota" }
+        ]
+      }
+    ];
+
+    const mazeSize = 9;
+
+    const memoryRounds = [
+      {
+        prompt: "Da vuelta dos cartas y busca las parejas.",
+        pairs: [
+          { id: "phone", image: imageLibrary.oldPhone, label: "Teléfono antiguo" },
+          { id: "camera", image: imageLibrary.oldCamera, label: "Cámara antigua" },
+          { id: "laptop", image: imageLibrary.laptop, label: "Notebook" },
+          { id: "monitor", image: imageLibrary.monitor, label: "Pantalla moderna" }
+        ]
+      },
+      {
+        prompt: "Nueva ronda: encuentra todos los pares.",
+        pairs: [
+          { id: "cell", image: imageLibrary.featurePhone, label: "Celular" },
+          { id: "digital-camera", image: imageLibrary.digitalCamera, label: "Cámara digital" },
+          { id: "tv", image: imageLibrary.oldTv, label: "Televisor antiguo" },
+          { id: "typewriter", image: imageLibrary.typewriter, label: "Máquina de escribir" }
+        ]
+      }
+    ];
+
+    const dragRounds = [
+      {
+        prompt: "Lleva cada dibujo a su tiempo.",
+        zones: {
+          before: { title: "Antes", subtitle: "Inventos de hace tiempo" },
+          now: { title: "Ahora", subtitle: "Inventos de hoy" }
+        },
+        items: [
+          { id: "old-phone", image: imageLibrary.oldPhone, label: "Teléfono antiguo", category: "before" },
+          { id: "typewriter", image: imageLibrary.typewriter, label: "Máquina de escribir", category: "before" },
+          { id: "old-tv", image: imageLibrary.oldTv, label: "Televisor antiguo", category: "before" },
+          { id: "cell", image: imageLibrary.featurePhone, label: "Celular", category: "now" },
+          { id: "laptop", image: imageLibrary.laptop, label: "Notebook", category: "now" },
+          { id: "monitor", image: imageLibrary.monitor, label: "Pantalla moderna", category: "now" }
+        ]
+      },
+      {
+        prompt: "Ahora ordénalos por lo que hacen.",
+        zones: {
+          talk: { title: "Hablar", subtitle: "Sirven para llamar" },
+          photo: { title: "Fotos", subtitle: "Sirven para sacar imágenes" }
+        },
+        items: [
+          { id: "talk-old", image: imageLibrary.oldPhone, label: "Teléfono antiguo", category: "talk" },
+          { id: "talk-cell", image: imageLibrary.featurePhone, label: "Celular", category: "talk" },
+          { id: "photo-old", image: imageLibrary.oldCamera, label: "Cámara antigua", category: "photo" },
+          { id: "photo-new", image: imageLibrary.digitalCamera, label: "Cámara digital", category: "photo" }
+        ]
+      },
+      {
+        prompt: "Una ronda nueva: pantallas y cámaras.",
+        zones: {
+          screen: { title: "Pantallas", subtitle: "Sirven para mirar" },
+          camera: { title: "Cámaras", subtitle: "Sirven para tomar fotos" }
+        },
+        items: [
+          { id: "screen-tv", image: imageLibrary.oldTv, label: "Televisor antiguo", category: "screen" },
+          { id: "screen-monitor", image: imageLibrary.monitor, label: "Pantalla moderna", category: "screen" },
+          { id: "camera-old", image: imageLibrary.oldCamera, label: "Cámara antigua", category: "camera" },
+          { id: "camera-new", image: imageLibrary.digitalCamera, label: "Cámara digital", category: "camera" }
+        ]
+      }
+    ];
+
+    const state = {
+      screen: "home",
+      currentActivity: null,
+      completed: new Set(),
+      stars: 0,
+      activityState: {},
+      pendingCelebration: false,
+      pendingMistake: false
+    };
+
+    const screens = {
+      home: document.getElementById("homeScreen"),
+      menu: document.getElementById("menuScreen"),
+      activity: document.getElementById("activityScreen")
+    };
+
+    const starsRow = document.getElementById("starsRow");
+    const menuGrid = document.getElementById("menuGrid");
+    const activityStage = document.getElementById("activityStage");
+    const activityTitle = document.getElementById("activityTitle");
+    const activitySubtitle = document.getElementById("activitySubtitle");
+    const creditsList = document.getElementById("creditsList");
+
+    document.getElementById("startButton").addEventListener("click", () => showScreen("menu"));
+    document.getElementById("menuButton").addEventListener("click", () => showScreen("menu"));
+    document.getElementById("restartButton").addEventListener("click", () => {
+      if (state.currentActivity) {
+        openActivity(state.currentActivity.id, true);
+      }
+    });
+
+    window.addEventListener("resize", () => {
+      if (state.currentActivity && state.currentActivity.id === "match") {
+        drawPairLines();
+      }
+    });
+
+    function showScreen(screenName) {
+      Object.values(screens).forEach((screen) => screen.classList.remove("active"));
+      screens[screenName].classList.add("active");
+      state.screen = screenName;
+      if (screenName === "menu") {
+        renderMenu();
+      }
+    }
+
+    function renderStars() {
+      starsRow.innerHTML = "";
+      activities.forEach((activity) => {
+        const star = document.createElement("div");
+        star.className = "star" + (state.completed.has(activity.id) ? " earned" : "");
+        star.textContent = state.completed.has(activity.id) ? "★" : "☆";
+        starsRow.appendChild(star);
+      });
+    }
+
+    function renderMenu() {
+      menuGrid.innerHTML = "";
+
+      activities.forEach((activity, index) => {
+        const button = document.createElement("button");
+        button.className = "activity-card";
+        button.innerHTML = `
+          <div class="activity-preview ${activity.previewClass}">
+            ${renderPreview(activity.previewImages, activity.previewType)}
+          </div>
+          <div>
+            <h3>${index + 1}. ${activity.menuTitle}</h3>
+            <p>${activity.menuText}</p>
+          </div>
+          <div class="card-status">
+            <span class="status-pill ${state.completed.has(activity.id) ? "done" : ""}">
+              ${state.completed.has(activity.id) ? "Lista" : "Por jugar"}
+            </span>
+            <span class="count-chip">${state.completed.has(activity.id) ? "1 estrella" : "Sin estrella"}</span>
+          </div>
+        `;
+        button.addEventListener("click", () => openActivity(activity.id, false));
+        menuGrid.appendChild(button);
+      });
+
+      renderCredits();
+    }
+
+    function renderCredits() {
+      creditsList.innerHTML = imageCredits
+        .map((credit) => `<li><a href="${credit.href}" target="_blank" rel="noreferrer">${credit.name}</a> · Wikimedia Commons</li>`)
+        .join("");
+    }
+
+    function renderPreview(images, layoutType) {
+      const stackClass = layoutType === "two" ? "preview-stack two" : "preview-stack";
+      return `
+        <div class="${stackClass}">
+          ${images.map((image) => `
+            <div class="preview-tile">
+              <img class="preview-photo" src="${image.src}" alt="${image.alt}" />
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function renderPhotoFrame(image, altText) {
+      return `
+        <div class="icon-ball">
+          <img src="${image.src}" alt="${altText || image.alt}" />
+        </div>
+      `;
+    }
+
+    function openActivity(activityId, reset) {
+      const activity = activities.find((item) => item.id === activityId);
+      state.currentActivity = activity;
+      activityTitle.textContent = activity.title;
+      activitySubtitle.textContent = activity.subtitle;
+      if (reset || !state.activityState[activityId] || activityId === "maze") {
+        state.activityState[activityId] = createActivityState(activityId);
+      }
+      showScreen("activity");
+      renderActivity();
+    }
+
+    function createActivityState(activityId) {
+      if (activityId === "match") {
+        const round = matchRounds[0];
+        return {
+          round: 0,
+          leftOrder: shuffle([...round.pairs]),
+          rightOrder: shuffle([...round.pairs]),
+          selectedLeft: null,
+          selectedRight: null,
+          matched: {},
+          feedback: { text: round.prompt, type: "info" }
+        };
+      }
+
+      if (activityId === "maze") {
+        const generatedMaze = generateMazeLayout(mazeSize, mazeSize);
+        return {
+          layout: generatedMaze.layout,
+          startKey: generatedMaze.startKey,
+          goalKey: generatedMaze.goalKey,
+          trail: [generatedMaze.startKey],
+          currentKey: generatedMaze.startKey,
+          dragging: false,
+          feedback: { text: "Pon tu dedo en INICIO y arrastra hasta META.", type: "info" }
+        };
+      }
+
+      if (activityId === "sequence") {
+        return {
+          round: 0,
+          feedback: { text: "Mira la serie y elige la imagen correcta.", type: "info" }
+        };
+      }
+
+      if (activityId === "memory") {
+        return {
+          round: 0,
+          deck: createMemoryDeck(memoryRounds[0].pairs),
+          flipped: [],
+          matched: {},
+          locked: false,
+          previewing: true,
+          previewStarted: false,
+          feedback: { text: memoryRounds[0].prompt, type: "info" }
+        };
+      }
+
+      if (activityId === "drag") {
+        const round = dragRounds[0];
+        return {
+          round: 0,
+          pool: shuffle(round.items.map((item) => ({ ...item }))),
+          placed: createPlacedState(round.zones),
+          selectedId: null,
+          draggingId: null,
+          feedback: { text: round.prompt, type: "info" }
+        };
+      }
+
+      return {};
+    }
+
+    function renderActivity() {
+      const activityId = state.currentActivity.id;
+      if (activityId === "match") {
+        renderMatchActivity();
+      } else if (activityId === "maze") {
+        renderMazeActivity();
+      } else if (activityId === "sequence") {
+        renderSequenceActivity();
+      } else if (activityId === "memory") {
+        renderMemoryActivity();
+      } else if (activityId === "drag") {
+        renderDragActivity();
+      }
+    }
+
+    function renderMatchActivity() {
+      const local = state.activityState.match;
+      const round = matchRounds[local.round];
+      activityStage.innerHTML = `
+        <div class="activity-hint">${round.prompt}</div>
+        ${matchRounds.length > 1 ? `
+        <div class="maze-mini" style="margin-bottom: 14px;">
+          <div class="mini-pill">${round.title}</div>
+          <div class="mini-pill">Paso ${local.round + 1} de ${matchRounds.length}</div>
+        </div>` : ""}
+        <div class="pair-board" id="pairBoard">
+          <svg class="pair-lines" id="pairLines"></svg>
+          <div class="pair-column" id="leftColumn"></div>
+          <div class="center-column">
+            <div class="line-label">Antes ⟷ Ahora</div>
+          </div>
+          <div class="pair-column" id="rightColumn"></div>
+        </div>
+        ${renderFeedback(local.feedback)}
+        <div class="celebration" id="celebrationLayer"></div>
+      `;
+
+      const leftColumn = document.getElementById("leftColumn");
+      const rightColumn = document.getElementById("rightColumn");
+
+      local.leftOrder.forEach((pair) => {
+        const card = createPairCard(pair, "left", !!local.matched[pair.id], local.selectedLeft === pair.id);
+        leftColumn.appendChild(card);
+      });
+
+      local.rightOrder.forEach((pair) => {
+        const card = createPairCard(pair, "right", !!local.matched[pair.id], local.selectedRight === pair.id);
+        rightColumn.appendChild(card);
+      });
+
+      drawPairLines();
+      flushPendingActivityEffects();
+    }
+
+    function createPairCard(pair, side, matched, selected) {
+      const card = document.createElement("button");
+      const image = side === "left" ? pair.leftImage : pair.rightImage;
+      const label = side === "left" ? pair.leftLabel : pair.rightLabel;
+      const title = side === "left" ? "Antes" : "Ahora";
+      card.className = `pair-card ${side === "left" ? "past" : "present"} ${matched ? "matched" : ""} ${selected ? "selected" : ""}`;
+      card.dataset.id = pair.id;
+      card.dataset.side = side;
+      card.innerHTML = `
+        ${renderPhotoFrame(image, label)}
+        <div class="pair-text">
+          <strong>${label}</strong>
+          <span>${title}</span>
+        </div>
+      `;
+      card.addEventListener("click", () => handlePairSelect(pair.id, side));
+      return card;
+    }
+
+    function handlePairSelect(pairId, side) {
+      const local = state.activityState.match;
+      if (local.matched[pairId]) {
+        return;
+      }
+
+      if (side === "left") {
+        local.selectedLeft = pairId;
+      } else {
+        local.selectedRight = pairId;
+      }
+
+      if (local.selectedLeft && local.selectedRight) {
+        if (local.selectedLeft === local.selectedRight) {
+          local.matched[pairId] = true;
+          local.feedback = { text: randomMessage(["¡Muy bien!", "¡Sigue así!", "¡Pareja correcta!"]), type: "success" };
+          local.selectedLeft = null;
+          local.selectedRight = null;
+          setTimeout(() => {
+            if (Object.keys(local.matched).length === matchRounds[local.round].pairs.length) {
+              if (local.round === matchRounds.length - 1) {
+                local.feedback = { text: "¡Lo lograste! Uniste todos los objetos.", type: "success" };
+                completeActivity("match");
+              } else {
+                local.round += 1;
+                local.leftOrder = shuffle([...matchRounds[local.round].pairs]);
+                local.rightOrder = shuffle([...matchRounds[local.round].pairs]);
+                local.matched = {};
+                local.feedback = { text: matchRounds[local.round].prompt, type: "info" };
+              }
+            }
+            renderMatchActivity();
+            burstCelebration();
+          }, 120);
+          renderMatchActivity();
+          return;
+        }
+
+        local.feedback = showMistakeFeedback("Casi. Mira otra vez con calma.");
+        renderMatchActivity();
+        const selectedCards = [...activityStage.querySelectorAll(".pair-card.selected")];
+        selectedCards.forEach((card) => card.classList.add("shake"));
+        setTimeout(() => {
+          local.selectedLeft = null;
+          local.selectedRight = null;
+          renderMatchActivity();
+        }, 700);
+        return;
+      }
+
+      local.feedback = { text: "Ahora elige su pareja.", type: "info" };
+      renderMatchActivity();
+    }
+
+    function drawPairLines() {
+      const board = document.getElementById("pairBoard");
+      const svg = document.getElementById("pairLines");
+      const local = state.activityState.match;
+      const round = matchRounds[local.round];
+      if (!board || !svg || !local) {
+        return;
+      }
+
+      const boardRect = board.getBoundingClientRect();
+      svg.setAttribute("viewBox", `0 0 ${boardRect.width} ${boardRect.height}`);
+      svg.setAttribute("width", boardRect.width);
+      svg.setAttribute("height", boardRect.height);
+      svg.innerHTML = "";
+
+      Object.keys(local.matched).forEach((id) => {
+        const leftCard = board.querySelector(`.pair-card[data-side="left"][data-id="${id}"]`);
+        const rightCard = board.querySelector(`.pair-card[data-side="right"][data-id="${id}"]`);
+        if (!leftCard || !rightCard) {
+          return;
+        }
+
+        const leftRect = leftCard.getBoundingClientRect();
+        const rightRect = rightCard.getBoundingClientRect();
+        const x1 = leftRect.right - boardRect.left;
+        const y1 = leftRect.top + leftRect.height / 2 - boardRect.top;
+        const x2 = rightRect.left - boardRect.left;
+        const y2 = rightRect.top + rightRect.height / 2 - boardRect.top;
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("d", `M ${x1} ${y1} C ${x1 + 80} ${y1}, ${x2 - 80} ${y2}, ${x2} ${y2}`);
+        path.setAttribute("stroke", "#6fc48a");
+        path.setAttribute("stroke-width", "8");
+        path.setAttribute("fill", "none");
+        path.setAttribute("stroke-linecap", "round");
+        svg.appendChild(path);
+      });
+    }
+
+    function renderMazeActivity() {
+      const local = state.activityState.maze;
+      let cells = "";
+
+      local.layout.forEach((rowCells, rowIndex) => {
+        rowCells.forEach((cellType, colIndex) => {
+          const key = `${rowIndex}-${colIndex}`;
+          const isWall = cellType === "0";
+          const isStart = cellType === "S";
+          const isGoal = cellType === "G";
+          const isTrail = local.trail.includes(key);
+          const isCurrent = local.currentKey === key;
+          let mark = "";
+          if (isStart) {
+            mark = `<span class="maze-chip start-chip">INICIO</span>`;
+          }
+          if (isGoal) {
+            mark = `
+              <span class="maze-chip goal-chip">
+                <span class="goal-icon"></span>
+                <span class="goal-badge">META</span>
+              </span>
+            `;
+          }
+          if (isCurrent && !isStart && !isGoal) {
+            mark = `
+              <span class="maze-robot-token">
+                <span class="maze-robot-face">
+                  <span>
+                    <span class="maze-robot-eyes"><span></span><span></span></span>
+                    <span class="maze-robot-smile"></span>
+                  </span>
+                </span>
+              </span>
+            `;
+          }
+          cells += `
+            <div
+              class="maze-cell ${isWall ? "wall" : "path"} ${isTrail ? "trail" : ""} ${isCurrent ? "current" : ""} ${isStart ? "start" : ""} ${isGoal ? "goal" : ""}"
+              data-row="${rowIndex}"
+              data-col="${colIndex}"
+              data-key="${key}"
+              data-walkable="${isWall ? "no" : "yes"}"
+            >
+              <span class="maze-mark">${mark}</span>
+            </div>
+          `;
+        });
+      });
+
+      activityStage.innerHTML = `
+        <div class="activity-hint">Arrastra desde INICIO hasta META</div>
+        <div class="maze-wrap">
+          <div class="maze-panel">
+            <div class="maze-mini">
+              <div class="mini-pill">Casillas recorridas: ${local.trail.length}</div>
+              <div class="mini-pill">Si te equivocas, vuelve hacia atrás</div>
+            </div>
+            <div class="maze-board" id="mazeBoard" style="grid-template-columns: repeat(${local.layout[0].length}, minmax(34px, 1fr));">${cells}</div>
+          </div>
+          <div class="maze-side">
+            <div class="maze-note">Guía al robot por el camino blanco. Hay desvíos, así que observa con calma.</div>
+            <div class="maze-note">Puedes usar mouse o dedo. Si te metes en un callejón, regresa por tu camino.</div>
+          </div>
+        </div>
+        ${renderFeedback(local.feedback)}
+        <div class="celebration" id="celebrationLayer"></div>
+      `;
+
+      const mazeBoard = document.getElementById("mazeBoard");
+      const stopDrag = () => {
+        const mazeState = state.activityState.maze;
+        if (mazeState) {
+          mazeState.dragging = false;
+        }
+      };
+
+      mazeBoard.addEventListener("pointerdown", handleMazePointerDown);
+      mazeBoard.addEventListener("pointermove", handleMazePointerMove);
+      mazeBoard.addEventListener("pointerup", stopDrag);
+      mazeBoard.addEventListener("pointerleave", stopDrag);
+      mazeBoard.addEventListener("pointercancel", stopDrag);
+
+      if (local.currentKey === local.goalKey) {
+        completeActivity("maze");
+      }
+      flushPendingActivityEffects();
+    }
+
+    function handleMazePointerDown(event) {
+      const local = state.activityState.maze;
+      const cell = event.target.closest(".maze-cell");
+      if (!cell || cell.dataset.walkable !== "yes") {
+        return;
+      }
+      if (cell.dataset.key !== local.currentKey) {
+        if (cell.dataset.key === local.startKey) {
+          local.trail = [local.startKey];
+          local.currentKey = local.startKey;
+        } else {
+          local.feedback = { text: "Empieza en INICIO o sigue desde donde vas.", type: "info" };
+          renderMazeActivity();
+          return;
+        }
+      }
+      local.dragging = true;
+      event.preventDefault();
+    }
+
+    function handleMazePointerMove(event) {
+      const local = state.activityState.maze;
+      if (!local.dragging || local.currentKey === local.goalKey) {
+        return;
+      }
+
+      const cell = event.target.closest(".maze-cell");
+      if (!cell || cell.dataset.walkable !== "yes") {
+        return;
+      }
+
+      handleMazeTrailMove(cell.dataset.key);
+    }
+
+    function handleMazeTrailMove(nextKey) {
+      const local = state.activityState.maze;
+      const currentKey = local.currentKey;
+
+      if (nextKey === currentKey || !isAdjacentCell(currentKey, nextKey)) {
+        return;
+      }
+
+      const previousKey = local.trail[local.trail.length - 2];
+      if (nextKey === previousKey) {
+        local.trail.pop();
+        local.currentKey = nextKey;
+        local.feedback = { text: "Muy bien. Puedes retroceder y probar otro camino.", type: "info" };
+        renderMazeActivity();
+        return;
+      }
+
+      if (local.trail.includes(nextKey)) {
+        return;
+      }
+
+      local.trail.push(nextKey);
+      local.currentKey = nextKey;
+
+      if (nextKey === local.goalKey) {
+        local.dragging = false;
+        local.feedback = { text: "¡Lo lograste! El robot llegó a la meta.", type: "success" };
+        renderMazeActivity();
+        completeActivity("maze");
+        burstCelebration();
+        return;
+      }
+
+      const hasForwardOption = getWalkableNeighbors(local.layout, nextKey).some((neighborKey) => !local.trail.includes(neighborKey));
+      local.feedback = hasForwardOption
+        ? { text: "Sigue buscando la salida.", type: "info" }
+        : showMistakeFeedback("Llegaste a un desvío.");
+      renderMazeActivity();
+    }
+
+    function isAdjacentCell(fromKey, toKey) {
+      const [fromRow, fromCol] = fromKey.split("-").map(Number);
+      const [toRow, toCol] = toKey.split("-").map(Number);
+      return Math.abs(fromRow - toRow) + Math.abs(fromCol - toCol) === 1;
+    }
+
+    function getWalkableNeighbors(layout, key) {
+      const [row, col] = key.split("-").map(Number);
+      const directions = [
+        [1, 0],
+        [-1, 0],
+        [0, 1],
+        [0, -1]
+      ];
+
+      return directions
+        .map(([rowOffset, colOffset]) => [row + rowOffset, col + colOffset])
+        .filter(([nextRow, nextCol]) => layout[nextRow] && layout[nextRow][nextCol] && layout[nextRow][nextCol] !== "0")
+        .map(([nextRow, nextCol]) => `${nextRow}-${nextCol}`);
+    }
+
+    function generateMazeLayout(width, height) {
+      const grid = Array.from({ length: height }, () => Array(width).fill("0"));
+      const visited = new Set();
+      const directions = [
+        [0, 2],
+        [0, -2],
+        [2, 0],
+        [-2, 0]
+      ];
+
+      function carve(row, col) {
+        visited.add(`${row}-${col}`);
+        grid[row][col] = "1";
+        const shuffledDirections = shuffle([...directions]);
+
+        shuffledDirections.forEach(([rowOffset, colOffset]) => {
+          const nextRow = row + rowOffset;
+          const nextCol = col + colOffset;
+          const nextKey = `${nextRow}-${nextCol}`;
+
+          if (
+            nextRow <= 0 ||
+            nextRow >= height - 1 ||
+            nextCol <= 0 ||
+            nextCol >= width - 1 ||
+            visited.has(nextKey)
+          ) {
+            return;
+          }
+
+          grid[row + rowOffset / 2][col + colOffset / 2] = "1";
+          carve(nextRow, nextCol);
+        });
+      }
+
+      carve(1, 1);
+
+      const startKey = "1-1";
+      const goalKey = getFarthestMazeKey(grid, startKey);
+      const [startRow, startCol] = startKey.split("-").map(Number);
+      const [goalRow, goalCol] = goalKey.split("-").map(Number);
+
+      grid[startRow][startCol] = "S";
+      grid[goalRow][goalCol] = "G";
+
+      return { layout: grid, startKey, goalKey };
+    }
+
+    function getFarthestMazeKey(layout, startKey) {
+      const queue = [startKey];
+      const visited = new Set([startKey]);
+      let farthestKey = startKey;
+
+      while (queue.length) {
+        const currentKey = queue.shift();
+        farthestKey = currentKey;
+        getWalkableNeighbors(layout, currentKey).forEach((neighborKey) => {
+          if (!visited.has(neighborKey)) {
+            visited.add(neighborKey);
+            queue.push(neighborKey);
+          }
+        });
+      }
+
+      return farthestKey;
+    }
+
+    function renderSequenceActivity() {
+      const local = state.activityState.sequence;
+      const round = sequenceRounds[local.round];
+      const options = shuffle([...round.options]);
+
+      activityStage.innerHTML = `
+        <div class="activity-hint">${round.prompt}</div>
+        <div class="maze-mini" style="margin-bottom: 14px;">
+          <div class="mini-pill">Serie ${local.round + 1} de ${sequenceRounds.length}</div>
+        </div>
+        <div class="sequence-row">
+          ${round.tiles.map((item) => item ? `
+            <div class="sequence-tile">
+              <div>
+                <img class="sequence-photo" src="${item.image.src}" alt="${item.label}" />
+                ${item.label}
+              </div>
+            </div>
+          ` : `
+          <div class="sequence-tile blank">
+            <div>
+              <div class="sequence-photo"></div>
+              Falta uno
+            </div>
+          </div>
+          `).join("")}
+        </div>
+        <div class="options-grid">
+          ${options.map((option) => `
+            <button class="option-card sequence" data-answer="${option.label}">
+              ${renderPhotoFrame(option.image, option.label)}
+              <strong>${option.label}</strong>
+            </button>
+          `).join("")}
+        </div>
+        ${renderFeedback(local.feedback)}
+        <div class="celebration" id="celebrationLayer"></div>
+      `;
+
+      activityStage.querySelectorAll(".option-card").forEach((card) => {
+        card.addEventListener("click", () => handleSequenceAnswer(card.dataset.answer, card));
+      });
+      flushPendingActivityEffects();
+    }
+
+    function handleSequenceAnswer(answerLabel, card) {
+      const local = state.activityState.sequence;
+      const round = sequenceRounds[local.round];
+
+      if (answerLabel === round.answer.label) {
+        card.classList.add("correct");
+        local.feedback = { text: randomMessage(["¡Muy bien!", "¡Correcto!", "¡Sigue así!"]), type: "success" };
+        burstCelebration();
+        setTimeout(() => {
+          if (local.round === sequenceRounds.length - 1) {
+            local.feedback = { text: "¡Lo lograste! Completaste todas las secuencias.", type: "success" };
+            completeActivity("sequence");
+          } else {
+            local.round += 1;
+          }
+          renderSequenceActivity();
+        }, 700);
+      } else {
+        card.classList.add("wrong");
+        local.feedback = showMistakeFeedback("Casi. Mira cómo van cambiando los dibujos.");
+        setTimeout(() => renderSequenceActivity(), 450);
+      }
+    }
+
+    function renderMemoryActivity() {
+      const local = state.activityState.memory;
+      const round = memoryRounds[local.round];
+      const matchedCount = Object.keys(local.matched).length;
+
+      activityStage.innerHTML = `
+        <div class="activity-hint">${round.prompt}</div>
+        <div class="maze-mini" style="margin-bottom: 14px;">
+          <div class="mini-pill">Ronda ${local.round + 1} de ${memoryRounds.length}</div>
+          <div class="mini-pill">Pares encontrados: ${matchedCount} de ${round.pairs.length}</div>
+          ${local.previewing ? `<div class="memory-preview-note">Mira las cartas y recuerda</div>` : ""}
+        </div>
+        <div class="memory-grid">
+          ${local.deck.map((card) => `
+            <button class="memory-card ${local.previewing || local.flipped.includes(card.cardId) || local.matched[card.pairId] ? "flipped" : ""} ${local.matched[card.pairId] ? "matched" : ""}" data-card-id="${card.cardId}">
+              <span class="memory-face back">
+                <span class="memory-back-dot">?</span>
+                Carta
+              </span>
+              <span class="memory-face front">
+                <span class="memory-front-photo"><img src="${card.image.src}" alt="${card.label}" /></span>
+                <strong>${card.label}</strong>
+              </span>
+            </button>
+          `).join("")}
+        </div>
+        ${renderFeedback(local.feedback)}
+        <div class="celebration" id="celebrationLayer"></div>
+      `;
+
+      activityStage.querySelectorAll(".memory-card").forEach((card) => {
+        card.addEventListener("click", () => handleMemoryChoice(card.dataset.cardId));
+      });
+
+      if (local.previewing && !local.previewStarted) {
+        local.previewStarted = true;
+        setTimeout(() => {
+          local.previewing = false;
+          local.previewStarted = false;
+          local.feedback = { text: "Ahora busca las parejas.", type: "info" };
+          renderMemoryActivity();
+        }, 2000);
+      }
+
+      flushPendingActivityEffects();
+    }
+
+    function handleMemoryChoice(cardId) {
+      const local = state.activityState.memory;
+      const round = memoryRounds[local.round];
+      if (local.locked || local.previewing || local.flipped.includes(cardId)) {
+        return;
+      }
+
+      const card = local.deck.find((item) => item.cardId === cardId);
+      if (!card || local.matched[card.pairId]) {
+        return;
+      }
+
+      local.flipped.push(cardId);
+      renderMemoryActivity();
+
+      if (local.flipped.length < 2) {
+        local.feedback = { text: "Busca su pareja.", type: "info" };
+        return;
+      }
+
+      const [firstId, secondId] = local.flipped;
+      const firstCard = local.deck.find((item) => item.cardId === firstId);
+      const secondCard = local.deck.find((item) => item.cardId === secondId);
+      local.locked = true;
+
+      if (firstCard.pairId === secondCard.pairId) {
+        local.matched[firstCard.pairId] = true;
+        local.feedback = { text: randomMessage(["¡Muy bien!", "¡Encontraste un par!", "¡Sigue así!"]), type: "success" };
+        burstCelebration();
+        setTimeout(() => {
+          local.flipped = [];
+          local.locked = false;
+          if (Object.keys(local.matched).length === round.pairs.length) {
+            if (local.round === memoryRounds.length - 1) {
+              local.feedback = { text: "¡Lo lograste! Encontraste todos los pares.", type: "success" };
+              completeActivity("memory");
+            } else {
+              local.round += 1;
+              local.deck = createMemoryDeck(memoryRounds[local.round].pairs);
+              local.matched = {};
+              local.previewing = true;
+              local.previewStarted = false;
+              local.feedback = { text: memoryRounds[local.round].prompt, type: "info" };
+            }
+          }
+          renderMemoryActivity();
+        }, 650);
+        return;
+      }
+
+      local.feedback = showMistakeFeedback("Esas cartas no son pareja.");
+      setTimeout(() => {
+        local.flipped = [];
+        local.locked = false;
+        renderMemoryActivity();
+      }, 850);
+    }
+
+    function renderDragActivity() {
+      const local = state.activityState.drag;
+      const round = dragRounds[local.round];
+      const sourceItems = local.pool.filter((item) => !isPlaced(item.id, local.placed));
+      const zoneEntries = Object.entries(round.zones);
+
+      activityStage.innerHTML = `
+        <div class="activity-hint">${round.prompt}</div>
+        <div class="maze-mini" style="margin-bottom: 14px;">
+          <div class="mini-pill">Clasifica ${local.round + 1} de ${dragRounds.length}</div>
+        </div>
+        <div class="drag-source" id="dragSource">
+          ${sourceItems.map((item) => `
+            <button class="drag-card drag" data-id="${item.id}" data-category="${item.category}">
+              ${renderPhotoFrame(item.image, item.label)}
+              <div class="pair-text">
+                <strong>${item.label}</strong>
+                <span>Toca y mueve</span>
+              </div>
+            </button>
+          `).join("")}
+        </div>
+        <div class="drop-grid">
+          ${zoneEntries.map(([zoneKey, zoneInfo]) => `
+            <div class="drop-zone" data-zone="${zoneKey}">
+              <h3>${zoneInfo.title}</h3>
+              <p>${zoneInfo.subtitle}</p>
+              <div class="drop-stack">
+                ${(local.placed[zoneKey] || []).map((item) => renderPlacedCard(item)).join("")}
+              </div>
+            </div>
+          `).join("")}
+        </div>
+        ${renderFeedback(local.feedback)}
+        <div class="celebration" id="celebrationLayer"></div>
+      `;
+
+      activityStage.querySelectorAll(".drag-card").forEach((card) => {
+        card.addEventListener("click", () => handleDragCardClick(card.dataset.id));
+        card.addEventListener("pointerdown", startPointerDrag);
+      });
+
+      activityStage.querySelectorAll(".drop-zone").forEach((zone) => {
+        zone.addEventListener("click", () => handleDrop(zone.dataset.zone));
+      });
+      flushPendingActivityEffects();
+    }
+
+    function renderPlacedCard(item) {
+      return `
+        <div class="drag-card drag done">
+          ${renderPhotoFrame(item.image, item.label)}
+          <div class="pair-text">
+            <strong>${item.label}</strong>
+            <span>¡Bien!</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function handleDragCardClick(itemId) {
+      const local = state.activityState.drag;
+      local.selectedId = local.selectedId === itemId ? null : itemId;
+      local.feedback = { text: local.selectedId ? "Muy bien. Ahora toca una caja." : "Elige una tarjeta para moverla.", type: "info" };
+      renderDragActivity();
+      if (local.selectedId) {
+        const card = activityStage.querySelector(`.drag-card[data-id="${local.selectedId}"]`);
+        if (card) {
+          card.classList.add("selected");
+        }
+      }
+    }
+
+    function handleDrop(zoneName) {
+      const local = state.activityState.drag;
+      const round = dragRounds[local.round];
+      if (!local.selectedId && !local.draggingId) {
+        local.feedback = { text: "Primero elige una tarjeta.", type: "info" };
+        renderDragActivity();
+        return;
+      }
+
+      const itemId = local.draggingId || local.selectedId;
+      const item = local.pool.find((entry) => entry.id === itemId);
+      if (!item) {
+        return;
+      }
+
+      const zone = activityStage.querySelector(`.drop-zone[data-zone="${zoneName}"]`);
+
+      if (item.category === zoneName) {
+        local.placed[zoneName].push(item);
+        local.selectedId = null;
+        local.draggingId = null;
+        local.feedback = { text: randomMessage(["¡Muy bien!", "¡Correcto!", "¡Sigue así!"]), type: "success" };
+        if (zone) {
+          zone.classList.add("correct");
+        }
+        const placedCount = Object.values(local.placed).flat().length;
+        if (placedCount === local.pool.length) {
+          if (local.round === dragRounds.length - 1) {
+            local.feedback = { text: "¡Lo lograste! Ordenaste todo en su lugar.", type: "success" };
+            completeActivity("drag");
+          } else {
+            local.round += 1;
+            const nextRound = dragRounds[local.round];
+            local.pool = shuffle(nextRound.items.map((entry) => ({ ...entry })));
+            local.placed = createPlacedState(nextRound.zones);
+            local.feedback = { text: nextRound.prompt, type: "info" };
+          }
+        }
+        renderDragActivity();
+        burstCelebration();
+        return;
+      }
+
+      local.selectedId = null;
+      local.draggingId = null;
+      local.feedback = showMistakeFeedback("Esa tarjeta va en la otra caja.");
+      if (zone) {
+        zone.classList.add("wrong");
+      }
+      renderDragActivity();
+    }
+
+    function startPointerDrag(event) {
+      const card = event.currentTarget;
+      const local = state.activityState.drag;
+      const itemId = card.dataset.id;
+      local.selectedId = itemId;
+      local.draggingId = itemId;
+
+      card.classList.add("dragging");
+      const ghost = card.cloneNode(true);
+      ghost.classList.add("drag-ghost");
+      ghost.classList.remove("dragging");
+      document.body.appendChild(ghost);
+      moveGhost(ghost, event.clientX, event.clientY);
+
+      const move = (moveEvent) => {
+        moveGhost(ghost, moveEvent.clientX, moveEvent.clientY);
+        highlightZone(moveEvent.clientX, moveEvent.clientY);
+      };
+
+      const end = (endEvent) => {
+        document.removeEventListener("pointermove", move);
+        document.removeEventListener("pointerup", end);
+        document.removeEventListener("pointercancel", end);
+        card.classList.remove("dragging");
+        clearZoneHighlights();
+        ghost.remove();
+        const target = document.elementFromPoint(endEvent.clientX, endEvent.clientY);
+        const zone = target ? target.closest(".drop-zone") : null;
+        if (zone) {
+          handleDrop(zone.dataset.zone);
+        } else {
+          local.draggingId = null;
+          local.feedback = { text: "Suelta la tarjeta sobre una caja.", type: "info" };
+          renderDragActivity();
+        }
+      };
+
+      document.addEventListener("pointermove", move);
+      document.addEventListener("pointerup", end);
+      document.addEventListener("pointercancel", end);
+    }
+
+    function moveGhost(ghost, x, y) {
+      ghost.style.left = `${x}px`;
+      ghost.style.top = `${y}px`;
+    }
+
+    function highlightZone(x, y) {
+      clearZoneHighlights();
+      const target = document.elementFromPoint(x, y);
+      const zone = target ? target.closest(".drop-zone") : null;
+      if (zone) {
+        zone.classList.add("active");
+      }
+    }
+
+    function clearZoneHighlights() {
+      activityStage.querySelectorAll(".drop-zone").forEach((zone) => zone.classList.remove("active"));
+    }
+
+    function isPlaced(itemId, placed) {
+      return Object.values(placed).flat().some((item) => item.id === itemId);
+    }
+
+    function createPlacedState(zones) {
+      return Object.fromEntries(Object.keys(zones).map((zoneKey) => [zoneKey, []]));
+    }
+
+    function createMemoryDeck(pairs) {
+      return shuffle(
+        pairs.flatMap((pair) => ([
+          { cardId: `${pair.id}-a`, pairId: pair.id, image: pair.image, label: pair.label },
+          { cardId: `${pair.id}-b`, pairId: pair.id, image: pair.image, label: pair.label }
+        ]))
+      );
+    }
+
+    function renderFeedback(feedback) {
+      const icons = {
+        success: "✓",
+        error: "✕",
+        info: "•"
+      };
+      return `
+        <div class="feedback-box ${feedback.type}">
+          <span class="feedback-icon">${icons[feedback.type] || "•"}</span>
+          <span>${feedback.text}</span>
+        </div>
+      `;
+    }
+
+    function flushPendingActivityEffects() {
+      if (state.pendingCelebration) {
+        state.pendingCelebration = false;
+        showCompletionCelebration();
+      }
+
+      if (state.pendingMistake) {
+        state.pendingMistake = false;
+        animateMistakeStage();
+      }
+    }
+
+    function showMistakeFeedback(message) {
+      state.pendingMistake = true;
+      return { text: `${message} ${randomMessage(["Inténtalo otra vez.", "Tú puedes.", "Sigue probando."])}`, type: "error" };
+    }
+
+    function animateMistakeStage() {
+      const stage = document.getElementById("activityStage");
+      if (!stage) {
+        return;
+      }
+      stage.classList.add("mistake");
+      const signal = document.createElement("div");
+      signal.className = "mistake-signal";
+      signal.innerHTML = `
+        <span class="mistake-eye"></span>
+        <span class="mistake-text">Ups, revisa bien</span>
+      `;
+      stage.appendChild(signal);
+      setTimeout(() => {
+        stage.classList.remove("mistake");
+        signal.remove();
+      }, 420);
+    }
+
+    function completeActivity(activityId) {
+      if (!state.completed.has(activityId)) {
+        state.completed.add(activityId);
+        state.stars = state.completed.size;
+        renderStars();
+      }
+      state.pendingCelebration = true;
+    }
+
+    function showCompletionCelebration() {
+      const layer = document.getElementById("celebrationLayer");
+      if (!layer) {
+        return;
+      }
+
+      layer.classList.add("show");
+      layer.innerHTML = "";
+      const card = document.createElement("div");
+      card.className = "celebration-card";
+      card.innerHTML = `
+        <h3>${randomMessage(["¡Muy bien!", "¡Lo lograste!", "¡Fantástico!"])}</h3>
+        <p>${randomMessage(["Sigue así", "Qué buen trabajo", "Tu feria va increíble"])}</p>
+      `;
+      layer.appendChild(card);
+
+      const colors = ["#4CAF50", "#0B6B3A", "#b7e0b9", "#ffd86b", "#ff9e80"];
+      for (let index = 0; index < 14; index++) {
+        const streamer = document.createElement("div");
+        streamer.className = "streamer";
+        streamer.style.background = `linear-gradient(180deg, ${colors[index % colors.length]}, rgba(255,255,255,0.25))`;
+        streamer.style.left = `${6 + index * 6.6}%`;
+        streamer.style.setProperty("--rot", `${-28 + Math.random() * 56}deg`);
+        layer.appendChild(streamer);
+      }
+
+      for (let index = 0; index < 28; index++) {
+        const piece = document.createElement("div");
+        const variant = index % 3 === 0 ? "ribbon" : index % 2 === 0 ? "dot" : "paper";
+        piece.className = `burst ${variant}`;
+        piece.style.background = colors[index % colors.length];
+        piece.style.left = `${12 + Math.random() * 76}%`;
+        piece.style.top = `${8 + Math.random() * 12}%`;
+        piece.style.setProperty("--x", `${(Math.random() - 0.5) * 420}px`);
+        piece.style.setProperty("--y", `${50 + Math.random() * 220}px`);
+        layer.appendChild(piece);
+      }
+      setTimeout(() => {
+        layer.classList.remove("show");
+        layer.innerHTML = "";
+      }, 1800);
+    }
+
+    function burstCelebration() {
+      const layer = document.getElementById("celebrationLayer");
+      if (!layer) {
+        return;
+      }
+
+      layer.classList.add("show");
+      layer.innerHTML = "";
+      const colors = ["#4CAF50", "#0B6B3A", "#b7e0b9", "#ffd86b"];
+      for (let index = 0; index < 14; index++) {
+        const piece = document.createElement("div");
+        piece.className = `burst ${index % 3 === 0 ? "paper" : index % 2 === 0 ? "dot" : "ribbon"}`;
+        piece.style.background = colors[index % colors.length];
+        piece.style.left = `${28 + Math.random() * 44}%`;
+        piece.style.top = `${28 + Math.random() * 14}%`;
+        piece.style.setProperty("--x", `${(Math.random() - 0.5) * 220}px`);
+        piece.style.setProperty("--y", `${40 + Math.random() * 120}px`);
+        layer.appendChild(piece);
+      }
+      setTimeout(() => {
+        layer.classList.remove("show");
+        layer.innerHTML = "";
+      }, 900);
+    }
+
+    function shuffle(array) {
+      const clone = [...array];
+      for (let index = clone.length - 1; index > 0; index--) {
+        const swapIndex = Math.floor(Math.random() * (index + 1));
+        [clone[index], clone[swapIndex]] = [clone[swapIndex], clone[index]];
+      }
+      return clone;
+    }
+
+    function randomMessage(messages) {
+      return messages[Math.floor(Math.random() * messages.length)];
+    }
+
+    renderStars();
+  </script>
+</body>
+</html>
