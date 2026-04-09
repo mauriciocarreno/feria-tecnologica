@@ -1,0 +1,32 @@
+services:
+  web:
+    image: nginx:alpine
+    container_name: feria-tecnologica-web
+    restart: unless-stopped
+    volumes:
+      - .:/usr/share/nginx/html:ro
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      # Router HTTPS
+      - "traefik.http.routers.feria.rule=Host(`feria-tecnologica.gleeze.com`)"
+      - "traefik.http.routers.feria.entrypoints=websecure"
+      - "traefik.http.routers.feria.tls=true"
+      - "traefik.http.routers.feria.tls.certresolver=letsencrypt"
+      
+      # Middleware de redirección (Nombre único para evitar conflictos)
+      - "traefik.http.middlewares.feria-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.feria-https-redirect.redirectscheme.permanent=true"
+      
+      # Router HTTP (Redirección a HTTPS)
+      - "traefik.http.routers.feria-http.rule=Host(`feria-tecnologica.gleeze.com`)"
+      - "traefik.http.routers.feria-http.entrypoints=web"
+      - "traefik.http.routers.feria-http.middlewares=feria-https-redirect"
+      
+      # Red de Docker para Traefik
+      - "traefik.docker.network=proxy"
+
+networks:
+  proxy:
+    external: true

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,7 +8,7 @@
   <style>
     :root {
       --primary: #0B6B3A;
-      --secondary: #4CAF50;
+      --secondary: #D32F2F;
       --accent-red: #D32F2F;
       --accent-red-dark: #B71C1C;
       --light-green: #E8F5E9;
@@ -15,10 +16,10 @@
       --section-bg: #F5F5F5;
       --text: #333333;
       --ink: #333333;
-      --blue: #4CAF50;
-      --blue-dark: #0B6B3A;
-      --green: #4CAF50;
-      --yellow: #d1f0b9;
+      --blue: #0B6B3A;
+      --blue-dark: #053b1f;
+      --green: #0B6B3A;
+      --yellow: #ffd7d7;
       --red: #D32F2F;
       --white: #ffffff;
       --shadow: 0 18px 40px rgba(11, 107, 58, 0.12);
@@ -32,13 +33,14 @@
       box-sizing: border-box;
     }
 
-    html, body {
+    html,
+    body {
       margin: 0;
       min-height: 100%;
       font-family: "Trebuchet MS", "Arial Rounded MT Bold", "Comic Sans MS", sans-serif;
       background:
-        radial-gradient(circle at top left, rgba(255, 255, 255, 0.94), rgba(255,255,255,0) 28%),
-        radial-gradient(circle at bottom right, rgba(232, 245, 233, 0.82), rgba(232,245,233,0) 34%),
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0) 28%),
+        radial-gradient(circle at bottom right, rgba(232, 245, 233, 0.82), rgba(232, 245, 233, 0) 34%),
         linear-gradient(160deg, #ffffff 0%, #f5f5f5 55%, #e8f5e9 100%);
       color: var(--ink);
       overflow-x: hidden;
@@ -53,7 +55,7 @@
       width: 220px;
       height: 220px;
       border-radius: 42% 58% 68% 32% / 39% 36% 64% 61%;
-      background: rgba(255,255,255,0.36);
+      background: rgba(255, 255, 255, 0.36);
       filter: blur(1px);
       pointer-events: none;
     }
@@ -62,7 +64,7 @@
       inset: 10% -7% auto auto;
       width: 280px;
       height: 280px;
-      background: rgba(255,255,255,0.28);
+      background: rgba(255, 255, 255, 0.28);
     }
 
     button {
@@ -94,6 +96,13 @@
       display: flex;
       gap: 14px;
       align-items: center;
+      cursor: pointer;
+      user-select: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .brand:hover {
+      opacity: 0.8;
     }
 
     .brand-badge {
@@ -103,8 +112,9 @@
       display: grid;
       place-items: center;
       font-size: 30px;
-      background: linear-gradient(145deg, #dff2e3, #bfe4c7);
-      box-shadow: inset 0 -4px 0 rgba(255,255,255,0.5);
+      color: #fff;
+      background: linear-gradient(145deg, #0B6B3A, #053b1f);
+      box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.2);
     }
 
     .brand h1,
@@ -114,25 +124,30 @@
 
     .brand h1 {
       font-size: clamp(1.2rem, 2.5vw, 1.65rem);
+      color: #0B6B3A;
+      font-weight: 900;
     }
 
     .brand p {
       font-size: 0.96rem;
       opacity: 0.8;
+      color: #333;
     }
 
     .stars-box {
       min-width: 220px;
-      background: linear-gradient(180deg, #ffffff, #e8f5e9);
+      background: linear-gradient(180deg, #ffffff, #fff1f1);
       border-radius: 18px;
       padding: 12px 16px;
-      box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.75);
+      box-shadow: inset 0 0 0 2px rgba(211, 47, 47, 0.1);
+      border: 1px solid rgba(211, 47, 47, 0.05);
     }
 
     .stars-label {
       margin: 0 0 8px;
       font-size: 0.94rem;
       font-weight: 700;
+      color: #D32F2F;
     }
 
     .stars-row {
@@ -147,14 +162,17 @@
       border-radius: 50%;
       display: grid;
       place-items: center;
-      background: rgba(255,255,255,0.75);
+      background: rgba(255, 255, 255, 0.75);
       font-size: 18px;
+      color: #ccc;
       transition: transform 0.25s ease, background 0.25s ease;
     }
 
     .star.earned {
-      background: #b7e0b9;
+      background: #D32F2F;
+      color: #fff;
       transform: translateY(-2px) rotate(-5deg);
+      box-shadow: 0 4px 10px rgba(211, 47, 47, 0.24);
     }
 
     .screen {
@@ -172,13 +190,191 @@
       gap: 26px;
       align-items: center;
       min-height: calc(100vh - 170px);
+      margin-bottom: 40px;
+    }
+
+    /* Estilos Línea de Tiempo Rediseñada */
+    .timeline-section {
+      margin-top: 80px;
+      padding: 60px 0;
+      background: linear-gradient(180deg, rgba(232, 245, 233, 0.4), rgba(255, 255, 255, 0));
+      border-radius: 40px;
+      position: relative;
+    }
+
+    .timeline-title {
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 50px;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 900;
+      position: relative;
+    }
+
+    .timeline-title::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: var(--secondary);
+      border-radius: 999px;
+    }
+
+    .timeline-wrapper {
+      position: relative;
+      padding: 40px 0;
+      margin-top: 20px;
+    }
+
+    .timeline-nav {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      pointer-events: none;
+      z-index: 10;
+      padding: 0 10px;
+    }
+
+    .nav-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: white;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      pointer-events: auto;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .nav-btn:hover {
+      background: var(--primary);
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .timeline-container {
+      display: flex;
+      gap: 40px;
+      overflow-x: auto;
+      padding: 60px 40px 40px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      position: relative;
+      cursor: grab;
+      /* Línea de conexión que sí se ve y se mueve */
+      background-image: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+      background-size: calc(100% - 80px) 4px;
+      background-repeat: no-repeat;
+      background-position: center 38px;
+    }
+
+    .timeline-container:active {
+      cursor: grabbing;
+    }
+
+    .timeline-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .timeline-item {
+      flex: 0 0 280px;
+      background: white;
+      border-radius: 30px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      scroll-snap-align: center;
+      border: 1px solid rgba(11, 107, 58, 0.08);
+      z-index: 2;
+    }
+
+    .timeline-dot {
+      width: 24px;
+      height: 24px;
+      background: var(--primary);
+      border: 4px solid white;
+      border-radius: 50%;
+      position: absolute;
+      top: -34px;
+      /* Alineado con la línea de fondo */
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 0 4px rgba(11, 107, 58, 0.15);
+      z-index: 3;
+    }
+
+    .timeline-year {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      padding: 6px 16px;
+      border-radius: 12px;
+      font-weight: 900;
+      font-size: 1rem;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 10px rgba(11, 107, 58, 0.2);
+    }
+
+    .timeline-photo-box {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: var(--section-bg);
+      border-radius: 22px;
+      margin-bottom: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 2px dashed rgba(11, 107, 58, 0.15);
+      transition: all 0.3s ease;
+    }
+
+    .timeline-item:hover .timeline-photo-box {
+      background: var(--light-green);
+      border-color: var(--primary);
+    }
+
+    .timeline-photo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .timeline-photo-box span {
+      font-size: 0.85rem;
+      color: var(--primary);
+      font-weight: 800;
+      opacity: 0.6;
+      margin-top: 10px;
+    }
+
+    .timeline-item h3 {
+      margin: 0;
+      color: var(--primary);
+      font-size: 1.3rem;
+      font-weight: 800;
+      line-height: 1.2;
     }
 
     .hero-card,
     .panel,
     .menu-card,
     .activity-shell {
-      background: rgba(255,255,255,0.82);
+      background: rgba(255, 255, 255, 0.82);
       border-radius: var(--radius-xl);
       box-shadow: var(--shadow);
     }
@@ -254,7 +450,7 @@
     }
 
     .ghost-btn {
-      background: rgba(255,255,255,0.8);
+      background: rgba(255, 255, 255, 0.8);
       color: var(--ink);
       box-shadow: inset 0 0 0 2px rgba(76, 175, 80, 0.18);
     }
@@ -285,7 +481,7 @@
       aspect-ratio: 1 / 1;
       border-radius: 32px;
       background:
-        radial-gradient(circle at top right, rgba(255,255,255,0.9), rgba(255,255,255,0) 32%),
+        radial-gradient(circle at top right, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 32%),
         linear-gradient(135deg, #e8f5e9, #ffffff 54%, #dff2e3);
       box-shadow: var(--shadow);
       overflow: hidden;
@@ -294,7 +490,7 @@
     .bubble {
       position: absolute;
       border-radius: 50%;
-      background: rgba(255,255,255,0.52);
+      background: rgba(255, 255, 255, 0.52);
       animation: float 5s ease-in-out infinite;
     }
 
@@ -333,28 +529,29 @@
     .robot-head {
       width: 200px;
       height: 152px;
-      background: linear-gradient(180deg, #fffefd, #d9f0ff);
+      background: linear-gradient(180deg, #0B6B3A, #084d2a);
       border-radius: 36px;
       margin: 0 auto;
       position: relative;
-      box-shadow: inset 0 -8px 0 #b9dcff;
+      box-shadow: inset 0 -8px 0 rgba(0, 0, 0, 0.15);
     }
 
     .robot-face {
       position: absolute;
       inset: 26px 22px 28px;
-      background: linear-gradient(180deg, #7ec3ff, #4797f4);
+      background: linear-gradient(180deg, #ffffff, #f5f5f5);
       border-radius: 28px;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 28px;
+      border: 3px solid #0B6B3A;
     }
 
     .eye {
       width: 30px;
       height: 38px;
-      background: #fff;
+      background: #0B6B3A;
       border-radius: 50%;
       position: relative;
       animation: blink 4.5s infinite;
@@ -364,18 +561,18 @@
     .eye::after {
       content: "";
       position: absolute;
-      width: 11px;
-      height: 11px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
-      background: #24486f;
+      background: #fff;
       left: 10px;
-      top: 12px;
+      top: 10px;
     }
 
     .robot-antenna {
       width: 12px;
       height: 44px;
-      background: #89c8ff;
+      background: #D32F2F;
       border-radius: 10px;
       position: absolute;
       top: -28px;
@@ -387,21 +584,21 @@
       width: 28px;
       height: 28px;
       border-radius: 50%;
-      background: #ffd765;
+      background: #0B6B3A;
       position: absolute;
       left: -8px;
       top: -18px;
-      box-shadow: 0 0 0 8px rgba(255, 215, 101, 0.2);
+      box-shadow: 0 0 0 8px rgba(11, 107, 58, 0.2);
     }
 
     .robot-body {
       width: 172px;
       height: 110px;
-      background: linear-gradient(180deg, #fffef7, #ffe8b3);
+      background: linear-gradient(180deg, #0B6B3A, #084d2a);
       margin: 12px auto 0;
       border-radius: 28px;
       position: relative;
-      box-shadow: inset 0 -8px 0 #ffd774;
+      box-shadow: inset 0 -8px 0 rgba(0, 0, 0, 0.15);
     }
 
     .robot-heart {
@@ -413,53 +610,58 @@
       display: grid;
       place-items: center;
       border-radius: 20px;
-      background: rgba(255,255,255,0.75);
+      background: #D32F2F;
       font-size: 28px;
+      color: #ffffff;
+      font-weight: 900;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
 
     .limb {
       position: absolute;
-      background: #88cbff;
+      background: #0B6B3A;
       border-radius: 999px;
     }
 
     .limb.arm.left {
       width: 24px;
-      height: 100px;
-      left: 28px;
-      top: 132px;
-      transform: rotate(30deg);
+      height: 90px;
+      left: 18px;
+      top: 175px;
+      transform: rotate(25deg);
+      transform-origin: top center;
     }
 
     .limb.arm.right {
       width: 24px;
-      height: 100px;
-      right: 28px;
-      top: 132px;
-      transform: rotate(-30deg);
+      height: 90px;
+      right: 18px;
+      top: 175px;
+      transform: rotate(-25deg);
+      transform-origin: top center;
     }
 
     .limb.leg.left {
-      width: 24px;
-      height: 84px;
-      left: 82px;
-      bottom: 0;
-      transform: rotate(8deg);
+      width: 28px;
+      height: 70px;
+      left: 75px;
+      bottom: -10px;
+      transform: rotate(5deg);
     }
 
     .limb.leg.right {
-      width: 24px;
-      height: 84px;
-      right: 82px;
-      bottom: 0;
-      transform: rotate(-8deg);
+      width: 28px;
+      height: 70px;
+      right: 75px;
+      bottom: -10px;
+      transform: rotate(-5deg);
     }
 
     .speech-card {
       position: absolute;
       right: 12px;
       top: 18px;
-      background: rgba(255,255,255,0.92);
+      background: rgba(255, 255, 255, 0.92);
       border-radius: 20px;
       padding: 14px 16px;
       width: 170px;
@@ -475,7 +677,7 @@
       bottom: -16px;
       left: 26px;
       border: 10px solid transparent;
-      border-top-color: rgba(255,255,255,0.92);
+      border-top-color: rgba(255, 255, 255, 0.92);
     }
 
     .menu-grid {
@@ -504,7 +706,7 @@
       text-align: left;
       padding: 18px;
       border-radius: 24px;
-      background: rgba(255,255,255,0.86);
+      background: rgba(255, 255, 255, 0.86);
       box-shadow: var(--shadow);
       transition: transform 0.2s ease;
       display: grid;
@@ -520,11 +722,25 @@
       overflow: hidden;
     }
 
-    .preview-1 { background: linear-gradient(135deg, #fff1bf, #ffd4eb); }
-    .preview-2 { background: linear-gradient(135deg, #d8f8ff, #cfe1ff); }
-    .preview-3 { background: linear-gradient(135deg, #fff2d7, #d8ffe6); }
-    .preview-4 { background: linear-gradient(135deg, #fbe4ff, #ffefcb); }
-    .preview-5 { background: linear-gradient(135deg, #def8ff, #fff1c9); }
+    .preview-1 {
+      background: linear-gradient(135deg, #fff1bf, #ffd4eb);
+    }
+
+    .preview-2 {
+      background: linear-gradient(135deg, #d8f8ff, #cfe1ff);
+    }
+
+    .preview-3 {
+      background: linear-gradient(135deg, #fff2d7, #d8ffe6);
+    }
+
+    .preview-4 {
+      background: linear-gradient(135deg, #fbe4ff, #ffefcb);
+    }
+
+    .preview-5 {
+      background: linear-gradient(135deg, #def8ff, #fff1c9);
+    }
 
     .activity-card h3,
     .activity-card p {
@@ -584,7 +800,7 @@
       padding: 18px;
       border-radius: 24px;
       background:
-        linear-gradient(180deg, rgba(255,255,255,0.95), rgba(245,245,245,0.95)),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(245, 245, 245, 0.95)),
         linear-gradient(135deg, #ffffff, #e8f5e9);
       min-height: 540px;
       position: relative;
@@ -618,7 +834,7 @@
       justify-content: center;
       gap: 12px;
       text-align: center;
-      background: rgba(255,255,255,0.8);
+      background: rgba(255, 255, 255, 0.8);
       box-shadow: inset 0 0 0 2px rgba(76, 175, 80, 0.14);
     }
 
@@ -631,7 +847,7 @@
       flex: 0 0 auto;
       font-size: 1rem;
       font-weight: 900;
-      background: rgba(255,255,255,0.82);
+      background: rgba(255, 255, 255, 0.82);
     }
 
     .feedback-box.success {
@@ -668,7 +884,7 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at center, rgba(255,255,255,0.18), rgba(255,255,255,0.74));
+      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.74));
       z-index: 0;
     }
 
@@ -678,7 +894,7 @@
       min-width: min(88%, 420px);
       padding: 26px 24px;
       border-radius: 28px;
-      background: rgba(255,255,255,0.96);
+      background: rgba(255, 255, 255, 0.96);
       box-shadow: 0 20px 40px rgba(11, 107, 58, 0.18);
       text-align: center;
       border: 3px solid rgba(76, 175, 80, 0.18);
@@ -751,7 +967,7 @@
       gap: 12px;
       padding: 12px 16px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.96);
+      background: rgba(255, 255, 255, 0.96);
       border: 3px solid rgba(211, 47, 47, 0.3);
       box-shadow: 0 14px 28px rgba(183, 28, 28, 0.16);
       animation: popIn 0.24s ease, fadeMistake 1s ease forwards;
@@ -935,7 +1151,7 @@
       position: sticky;
       top: 24px;
       text-align: center;
-      background: rgba(255,255,255,0.76);
+      background: rgba(255, 255, 255, 0.76);
       border-radius: 18px;
       padding: 12px 8px;
       font-weight: 800;
@@ -951,7 +1167,7 @@
     .sequence-tile {
       min-height: 130px;
       border-radius: 26px;
-      background: rgba(255,255,255,0.92);
+      background: rgba(255, 255, 255, 0.92);
       box-shadow: var(--shadow);
       display: grid;
       place-items: center;
@@ -1041,14 +1257,14 @@
       gap: 8px;
       font-weight: 900;
       font-size: 1.2rem;
-      box-shadow: inset 0 -8px 0 rgba(255,255,255,0.14);
+      box-shadow: inset 0 -8px 0 rgba(255, 255, 255, 0.14);
     }
 
     .memory-back-dot {
       width: 58px;
       height: 58px;
       border-radius: 18px;
-      background: rgba(255,255,255,0.22);
+      background: rgba(255, 255, 255, 0.22);
       display: grid;
       place-items: center;
       font-size: 1.8rem;
@@ -1070,7 +1286,7 @@
     }
 
     .memory-preview-note {
-      background: rgba(255,255,255,0.9);
+      background: rgba(255, 255, 255, 0.9);
       border-radius: 999px;
       padding: 10px 14px;
       font-weight: 900;
@@ -1092,7 +1308,7 @@
     }
 
     .maze-panel {
-      background: rgba(255,255,255,0.86);
+      background: rgba(255, 255, 255, 0.86);
       border-radius: 28px;
       padding: 18px;
       box-shadow: var(--shadow);
@@ -1100,13 +1316,13 @@
 
     .maze-board {
       display: grid;
-      grid-template-columns: repeat(8, minmax(34px, 1fr));
-      gap: 6px;
-      max-width: 520px;
+      grid-template-columns: repeat(8, minmax(48px, 1fr));
+      gap: 8px;
+      max-width: 600px;
       margin: 0 auto;
-      padding: 10px;
+      padding: 12px;
       background: #d7ead8;
-      border-radius: 24px;
+      border-radius: 28px;
       touch-action: none;
       user-select: none;
     }
@@ -1117,6 +1333,7 @@
       border: 0;
       position: relative;
       transition: transform 0.15s ease, background 0.15s ease, outline 0.15s ease;
+      pointer-events: auto;
     }
 
     .maze-cell.wall {
@@ -1304,7 +1521,7 @@
     }
 
     .maze-note {
-      background: rgba(255,255,255,0.86);
+      background: rgba(255, 255, 255, 0.86);
       border-radius: 24px;
       padding: 16px;
       box-shadow: var(--shadow);
@@ -1319,7 +1536,7 @@
     }
 
     .mini-pill {
-      background: rgba(255,255,255,0.84);
+      background: rgba(255, 255, 255, 0.84);
       border-radius: 999px;
       padding: 10px 14px;
       font-weight: 800;
@@ -1336,7 +1553,7 @@
       min-height: 220px;
       border-radius: 28px;
       padding: 16px;
-      background: rgba(255,255,255,0.76);
+      background: rgba(255, 255, 255, 0.76);
       border: 4px dashed #9fcba7;
       transition: background 0.2s ease, border-color 0.2s ease;
     }
@@ -1398,7 +1615,7 @@
 
     .credits-panel {
       margin-top: 18px;
-      background: rgba(255,255,255,0.86);
+      background: rgba(255, 255, 255, 0.86);
       border-radius: 22px;
       box-shadow: var(--shadow);
       padding: 18px 20px;
@@ -1438,6 +1655,7 @@
         opacity: 0;
         transform: translateY(12px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -1445,27 +1663,69 @@
     }
 
     @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-12px); }
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-12px);
+      }
     }
 
     @keyframes blink {
-      0%, 47%, 52%, 100% { transform: scaleY(1); }
-      49% { transform: scaleY(0.08); }
+
+      0%,
+      47%,
+      52%,
+      100% {
+        transform: scaleY(1);
+      }
+
+      49% {
+        transform: scaleY(0.08);
+      }
     }
 
     @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-4px); }
-      75% { transform: translateX(4px); }
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      25% {
+        transform: translateX(-4px);
+      }
+
+      75% {
+        transform: translateX(4px);
+      }
     }
 
     @keyframes softShake {
-      0%, 100% { transform: translateX(0); }
-      20% { transform: translateX(-5px); }
-      40% { transform: translateX(5px); }
-      60% { transform: translateX(-4px); }
-      80% { transform: translateX(4px); }
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      20% {
+        transform: translateX(-5px);
+      }
+
+      40% {
+        transform: translateX(5px);
+      }
+
+      60% {
+        transform: translateX(-4px);
+      }
+
+      80% {
+        transform: translateX(4px);
+      }
     }
 
     @keyframes burst {
@@ -1473,9 +1733,11 @@
         opacity: 0;
         transform: translateY(8px) scale(0.6);
       }
+
       20% {
         opacity: 1;
       }
+
       100% {
         opacity: 0;
         transform: translate(var(--x), var(--y)) scale(1.35) rotate(18deg);
@@ -1487,6 +1749,7 @@
         opacity: 0;
         transform: scale(0.82);
       }
+
       to {
         opacity: 1;
         transform: scale(1);
@@ -1498,9 +1761,11 @@
         opacity: 0;
         transform: translateY(-30px) rotate(var(--rot));
       }
+
       15% {
         opacity: 1;
       }
+
       100% {
         opacity: 0;
         transform: translateY(180px) rotate(calc(var(--rot) * 1.45));
@@ -1508,9 +1773,12 @@
     }
 
     @keyframes fadeMistake {
-      0%, 72% {
+
+      0%,
+      72% {
         opacity: 1;
       }
+
       100% {
         opacity: 0;
       }
@@ -1577,6 +1845,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="app-shell">
     <header class="topbar">
@@ -1621,7 +1890,7 @@
                 <div class="limb arm left"></div>
                 <div class="limb arm right"></div>
                 <div class="robot-body">
-                  <div class="robot-heart">ON</div>
+                  <div class="robot-heart">TGS</div>
                 </div>
                 <div class="limb leg left"></div>
                 <div class="limb leg right"></div>
@@ -1629,6 +1898,200 @@
             </div>
           </div>
         </div>
+
+        <!-- Línea de Tiempo Tecnológica -->
+        <div class="timeline-section">
+          <h3 class="timeline-title">Evolución de los Inventos</h3>
+          <div class="timeline-wrapper">
+            <div class="timeline-nav">
+              <button class="nav-btn" id="prevTimeline" title="Anterior">‹</button>
+              <button class="nav-btn" id="nextTimeline" title="Siguiente">›</button>
+            </div>
+            <div class="timeline-container" id="timelineContainer">
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <span class="timeline-year">1880</span>
+                <div class="timeline-photo-box">
+                  <img src="assets/images/timeline-iron.jpg" alt="Plancha a carbón"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  <span style="display:none;">📷 [Añadir Foto]</span>
+                </div>
+                <h3>Plancha a carbón</h3>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <span class="timeline-year">1900</span>
+                <div class="timeline-photo-box">
+                  <img src="assets/images/timeline-typewriter.jpg" alt="Máquina de escribir"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  <span style="display:none;">📷 [Añadir Foto]</span>
+                </div>
+                <h3>Máquina de escribir</h3>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <span class="timeline-year">1920</span>
+                <div class="timeline-photo-box">
+                  <img src="assets/images/timeline-phone.jpg" alt="Teléfono de disco"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  <span style="display:none;">📷 [Añadir Foto]</span>
+                </div>
+                <h3>Teléfono de Disco</h3>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <span class="timeline-year">1950</span>
+                <div class="timeline-photo-box">
+                  <img src="assets/images/timeline-tv.jpg" alt="Televisor de caja"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  <span style="display:none;">📷 [Añadir Foto]</span>
+                </div>
+                <h3>Televisor de Caja</h3>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <span class="timeline-year">1970</span>
+                <div class="timeline-photo-box">
+                  <img src="assets/images/timeline-camera.jpg" alt="Cámara de Rollo"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  <span style="display:none;">📷 [Añadir Foto]</span>
+                </div>
+                <h3>Cámara de Rollo</h3>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <span class="timeline-year">1979</span>
+                <div class="timeline-photo-box">
+                  <img src="assets/images/timeline-vhs.jpg" alt="Cinta VHS"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  <span style="display:none;">📷 [Añadir Foto]</span>
+                </div>
+                <h3>Cinta VHS</h3>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <span class="timeline-year">1980</span>
+                <div class="timeline-photo-box">
+                  <img src="assets/images/timeline-radiotv.jpg" alt="Radio-TV"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  <span style="display:none;">📷 [Añadir Foto]</span>
+                </div>
+                <h3>Radio-TV</h3>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <span class="timeline-year">1981</span>
+                <div class="timeline-photo-box">
+                  <img src="assets/images/timeline-walkman.jpg" alt="Personal Stereo"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  <span style="display:none;">📷 [Añadir Foto]</span>
+                </div>
+                <h3>Personal Stereo</h3>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <span class="timeline-year">1985</span>
+                <div class="timeline-photo-box">
+                  <img src="assets/images/timeline-pc.jpg" alt="Primeros Computadores"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  <span style="display:none;">📷 [Añadir Foto]</span>
+                </div>
+                <h3>Computadores</h3>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <span class="timeline-year">1990</span>
+                <div class="timeline-photo-box">
+                  <img src="assets/images/timeline-radiocassette.jpg" alt="Radio Cassette"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  <span style="display:none;">📷 [Añadir Foto]</span>
+                </div>
+                <h3>Radio Cassette</h3>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <span class="timeline-year">2005</span>
+                <div class="timeline-photo-box">
+                  <img src="assets/images/timeline-ipod.jpg" alt="iPod"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  <span style="display:none;">📷 [Añadir Foto]</span>
+                </div>
+                <h3>iPod</h3>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <span class="timeline-year">2010</span>
+                <div class="timeline-photo-box">
+                  <img src="assets/images/timeline-smartphone.jpg" alt="Smartphone"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  <span style="display:none;">📷 [Añadir Foto]</span>
+                </div>
+                <h3>Smartphone</h3>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <span class="timeline-year">2015</span>
+                <div class="timeline-photo-box">
+                  <img src="assets/images/timeline-speaker.jpg" alt="Parlante Bluetooth"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  <span style="display:none;">📷 [Añadir Foto]</span>
+                </div>
+                <h3>Parlante Bluetooth</h3>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <span class="timeline-year">2018</span>
+                <div class="timeline-photo-box">
+                  <img src="assets/images/timeline-smartwatch.jpg" alt="Smartwatch"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  <span style="display:none;">📷 [Añadir Foto]</span>
+                </div>
+                <h3>Smartwatch</h3>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <span class="timeline-year">2020</span>
+                <div class="timeline-photo-box">
+                  <img src="assets/images/timeline-smarttv.jpg" alt="Smart TV"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  <span style="display:none;">📷 [Añadir Foto]</span>
+                </div>
+                <h3>Smart TV</h3>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <span class="timeline-year">2022</span>
+                <div class="timeline-photo-box">
+                  <img src="assets/images/timeline-tablet.jpg" alt="Tablet"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  <span style="display:none;">📷 [Añadir Foto]</span>
+                </div>
+                <h3>Tablet</h3>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <span class="timeline-year">2024</span>
+                <div class="timeline-photo-box">
+                  <img src="assets/images/timeline-vr.jpg" alt="Lentes de Realidad Virtual"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  <span style="display:none;">📷 [Añadir Foto]</span>
+                </div>
+                <h3>Realidad Virtual</h3>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <span class="timeline-year">2026</span>
+                <div class="timeline-photo-box">
+                  <img src="assets/images/timeline-humanoid.jpg" alt="Robots Humanoides"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  <span style="display:none;">📷 [Añadir Foto]</span>
+                </div>
+                <h3>Robots Autónomos</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       </section>
 
       <section class="screen" id="menuScreen">
@@ -1637,10 +2100,6 @@
           <p>Haz una actividad a la vez y gana una estrella cuando la completes.</p>
         </div>
         <div class="menu-grid" id="menuGrid"></div>
-        <details class="credits-panel">
-          <summary>Créditos de imágenes</summary>
-          <ul class="credits-list" id="creditsList"></ul>
-        </details>
       </section>
 
       <section class="screen" id="activityScreen">
@@ -1919,6 +2378,59 @@
       }
     });
 
+    // --- Manejo del Botón de Home / Menú (Título/Marca) ---
+    document.querySelector(".brand").addEventListener("click", () => {
+      if (state.screen === "activity") {
+        showScreen("menu");
+      } else {
+        showScreen("home");
+      }
+    });
+
+    // --- Interactividad de la Línea de Tiempo ---
+    const timeline = document.getElementById("timelineContainer");
+    const prevBtn = document.getElementById("prevTimeline");
+    const nextBtn = document.getElementById("nextTimeline");
+
+    if (timeline && prevBtn && nextBtn) {
+      // Desplazamiento por botones
+      prevBtn.onclick = () => timeline.scrollBy({ left: -300, behavior: 'smooth' });
+      nextBtn.onclick = () => timeline.scrollBy({ left: 300, behavior: 'smooth' });
+
+      // Desplazamiento por arrastre del ratón (Mouse Drag)
+      let isDown = false;
+      let startX;
+      let scrollLeft;
+
+      timeline.addEventListener('mousedown', (e) => {
+        isDown = true;
+        timeline.style.cursor = 'grabbing';
+        startX = e.pageX - timeline.offsetLeft;
+        scrollLeft = timeline.scrollLeft;
+        timeline.style.scrollSnapType = 'none'; // Desactivar snap durante el arrastre
+      });
+
+      timeline.addEventListener('mouseleave', () => {
+        isDown = false;
+        timeline.style.cursor = 'grab';
+        timeline.style.scrollSnapType = 'x mandatory';
+      });
+
+      timeline.addEventListener('mouseup', () => {
+        isDown = false;
+        timeline.style.cursor = 'grab';
+        timeline.style.scrollSnapType = 'x mandatory';
+      });
+
+      timeline.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - timeline.offsetLeft;
+        const walk = (x - startX) * 2; // Velocidad de arrastre
+        timeline.scrollLeft = scrollLeft - walk;
+      });
+    }
+
     window.addEventListener("resize", () => {
       if (state.currentActivity && state.currentActivity.id === "match") {
         drawPairLines();
@@ -1968,14 +2480,6 @@
         button.addEventListener("click", () => openActivity(activity.id, false));
         menuGrid.appendChild(button);
       });
-
-      renderCredits();
-    }
-
-    function renderCredits() {
-      creditsList.innerHTML = imageCredits
-        .map((credit) => `<li><a href="${credit.href}" target="_blank" rel="noreferrer">${credit.name}</a> · Wikimedia Commons</li>`)
-        .join("");
     }
 
     function renderPreview(images, layoutType) {
@@ -2240,86 +2744,104 @@
 
     function renderMazeActivity() {
       const local = state.activityState.maze;
-      let cells = "";
-
-      local.layout.forEach((rowCells, rowIndex) => {
-        rowCells.forEach((cellType, colIndex) => {
-          const key = `${rowIndex}-${colIndex}`;
-          const isWall = cellType === "0";
-          const isStart = cellType === "S";
-          const isGoal = cellType === "G";
-          const isTrail = local.trail.includes(key);
-          const isCurrent = local.currentKey === key;
-          let mark = "";
-          if (isStart) {
-            mark = `<span class="maze-chip start-chip">INICIO</span>`;
-          }
-          if (isGoal) {
-            mark = `
-              <span class="maze-chip goal-chip">
-                <span class="goal-icon"></span>
-                <span class="goal-badge">META</span>
-              </span>
+      const board = document.getElementById("mazeBoard");
+      
+      // Si el tablero no existe, lo creamos completo
+      if (!board) {
+        let cells = "";
+        local.layout.forEach((rowCells, rowIndex) => {
+          rowCells.forEach((cellType, colIndex) => {
+            const key = `${rowIndex}-${colIndex}`;
+            const isWall = cellType === "0";
+            const isStart = cellType === "S";
+            const isGoal = cellType === "G";
+            const isTrail = local.trail.includes(key);
+            const isCurrent = local.currentKey === key;
+            let mark = "";
+            if (isStart) mark = `<span class="maze-chip start-chip">INICIO</span>`;
+            if (isGoal) mark = `<span class="maze-chip goal-chip"><span class="goal-icon"></span><span class="goal-badge">META</span></span>`;
+            
+            cells += `
+              <div
+                class="maze-cell ${isWall ? "wall" : "path"} ${isTrail ? "trail" : ""} ${isCurrent ? "current" : ""} ${isStart ? "start" : ""} ${isGoal ? "goal" : ""}"
+                id="cell-${key}"
+                data-row="${rowIndex}"
+                data-col="${colIndex}"
+                data-key="${key}"
+                data-walkable="${isWall ? "no" : "yes"}"
+              >
+                <span class="maze-mark" id="mark-${key}">${mark}</span>
+              </div>
             `;
-          }
-          if (isCurrent && !isStart && !isGoal) {
-            mark = `
-              <span class="maze-robot-token">
-                <span class="maze-robot-face">
-                  <span>
-                    <span class="maze-robot-eyes"><span></span><span></span></span>
-                    <span class="maze-robot-smile"></span>
+          });
+        });
+
+        activityStage.innerHTML = `
+          <div class="activity-hint">Arrastra desde INICIO hasta META</div>
+          <div class="maze-wrap">
+            <div class="maze-panel">
+              <div class="maze-mini">
+                <div class="mini-pill" id="trailCount">Casillas recorridas: ${local.trail.length}</div>
+                <div class="mini-pill">Si te equivocas, vuelve hacia atrás</div>
+              </div>
+              <div class="maze-board" id="mazeBoard" style="grid-template-columns: repeat(${local.layout[0].length}, minmax(48px, 1fr));">${cells}</div>
+            </div>
+            <div class="maze-side">
+              <div class="maze-note">Guía al robot por el camino blanco. Hay desvíos, así que observa con calma.</div>
+              <div class="maze-note">Puedes usar mouse o dedo. Si te metes en un callejón, regresa por tu camino.</div>
+            </div>
+          </div>
+          <div id="mazeFeedback">${renderFeedback(local.feedback)}</div>
+          <div class="celebration" id="celebrationLayer"></div>
+        `;
+
+        const newBoard = document.getElementById("mazeBoard");
+        const stopDrag = () => { local.dragging = false; };
+        newBoard.addEventListener("pointerdown", handleMazePointerDown);
+        newBoard.addEventListener("pointermove", handleMazePointerMove);
+        newBoard.addEventListener("pointerup", stopDrag);
+        newBoard.addEventListener("pointerleave", stopDrag);
+        newBoard.addEventListener("pointercancel", stopDrag);
+      } else {
+        // Si el tablero ya existe, solo actualizamos las clases y el robot
+        const trailCount = document.getElementById("trailCount");
+        if (trailCount) trailCount.textContent = `Casillas recorridas: ${local.trail.length}`;
+        
+        const feedbackArea = document.getElementById("mazeFeedback");
+        if (feedbackArea) feedbackArea.innerHTML = renderFeedback(local.feedback);
+
+        local.layout.forEach((rowCells, rowIndex) => {
+          rowCells.forEach((cellType, colIndex) => {
+            const key = `${rowIndex}-${colIndex}`;
+            const cellEl = document.getElementById(`cell-${key}`);
+            if (!cellEl) return;
+
+            const isTrail = local.trail.includes(key);
+            const isCurrent = local.currentKey === key;
+            const isStart = cellType === "S";
+            const isGoal = cellType === "G";
+
+            cellEl.classList.toggle("trail", isTrail);
+            cellEl.classList.toggle("current", isCurrent);
+
+            const markEl = document.getElementById(`mark-${key}`);
+            if (isCurrent && !isStart && !isGoal) {
+              markEl.innerHTML = `
+                <span class="maze-robot-token">
+                  <span class="maze-robot-face">
+                    <span>
+                      <span class="maze-robot-eyes"><span></span><span></span></span>
+                      <span class="maze-robot-smile"></span>
+                    </span>
                   </span>
                 </span>
-              </span>
-            `;
-          }
-          cells += `
-            <div
-              class="maze-cell ${isWall ? "wall" : "path"} ${isTrail ? "trail" : ""} ${isCurrent ? "current" : ""} ${isStart ? "start" : ""} ${isGoal ? "goal" : ""}"
-              data-row="${rowIndex}"
-              data-col="${colIndex}"
-              data-key="${key}"
-              data-walkable="${isWall ? "no" : "yes"}"
-            >
-              <span class="maze-mark">${mark}</span>
-            </div>
-          `;
+              `;
+            } else if (!isStart && !isGoal) {
+              markEl.innerHTML = "";
+            }
+          });
         });
-      });
-
-      activityStage.innerHTML = `
-        <div class="activity-hint">Arrastra desde INICIO hasta META</div>
-        <div class="maze-wrap">
-          <div class="maze-panel">
-            <div class="maze-mini">
-              <div class="mini-pill">Casillas recorridas: ${local.trail.length}</div>
-              <div class="mini-pill">Si te equivocas, vuelve hacia atrás</div>
-            </div>
-            <div class="maze-board" id="mazeBoard" style="grid-template-columns: repeat(${local.layout[0].length}, minmax(34px, 1fr));">${cells}</div>
-          </div>
-          <div class="maze-side">
-            <div class="maze-note">Guía al robot por el camino blanco. Hay desvíos, así que observa con calma.</div>
-            <div class="maze-note">Puedes usar mouse o dedo. Si te metes en un callejón, regresa por tu camino.</div>
-          </div>
-        </div>
-        ${renderFeedback(local.feedback)}
-        <div class="celebration" id="celebrationLayer"></div>
-      `;
-
-      const mazeBoard = document.getElementById("mazeBoard");
-      const stopDrag = () => {
-        const mazeState = state.activityState.maze;
-        if (mazeState) {
-          mazeState.dragging = false;
-        }
-      };
-
-      mazeBoard.addEventListener("pointerdown", handleMazePointerDown);
-      mazeBoard.addEventListener("pointermove", handleMazePointerMove);
-      mazeBoard.addEventListener("pointerup", stopDrag);
-      mazeBoard.addEventListener("pointerleave", stopDrag);
-      mazeBoard.addEventListener("pointercancel", stopDrag);
+      }
 
       if (local.currentKey === local.goalKey) {
         completeActivity("maze");
@@ -2353,12 +2875,37 @@
         return;
       }
 
-      const cell = event.target.closest(".maze-cell");
-      if (!cell || cell.dataset.walkable !== "yes") {
-        return;
+      const x = event.clientX;
+      const y = event.clientY;
+      
+      // Muestreo inteligente: si el punto exacto no es válido, probamos un pequeño radio alrededor
+      const offsets = [[0, 0], [10, 0], [-10, 0], [0, 10], [0, -10]];
+      let cell = null;
+      
+      for (const [ox, oy] of offsets) {
+        const element = document.elementFromPoint(x + ox, y + oy);
+        const candidate = element ? element.closest(".maze-cell") : null;
+        if (candidate && candidate.dataset.walkable === "yes") {
+          cell = candidate;
+          break;
+        }
       }
 
-      handleMazeTrailMove(cell.dataset.key);
+      if (!cell) return;
+
+      const nextKey = cell.dataset.key;
+      const currentKey = local.currentKey;
+      if (nextKey === currentKey) return;
+
+      // Movimiento fluido con búsqueda de camino si hay huecos
+      if (isAdjacentCell(currentKey, nextKey)) {
+        handleMazeTrailMove(nextKey);
+      } else {
+        const path = findMazePath(currentKey, nextKey, local.layout, local.trail);
+        if (path && path.length > 0) {
+          path.forEach(stepKey => handleMazeTrailMove(stepKey));
+        }
+      }
     }
 
     function handleMazeTrailMove(nextKey) {
@@ -2373,7 +2920,7 @@
       if (nextKey === previousKey) {
         local.trail.pop();
         local.currentKey = nextKey;
-        local.feedback = { text: "Muy bien. Puedes retroceder y probar otro camino.", type: "info" };
+        local.feedback = { text: "Muy bien. Puedes retroceder.", type: "info" };
         renderMazeActivity();
         return;
       }
@@ -2387,6 +2934,7 @@
 
       if (nextKey === local.goalKey) {
         local.dragging = false;
+        local.currentKey = nextKey;
         local.feedback = { text: "¡Lo lograste! El robot llegó a la meta.", type: "success" };
         renderMazeActivity();
         completeActivity("maze");
@@ -2394,11 +2942,33 @@
         return;
       }
 
-      const hasForwardOption = getWalkableNeighbors(local.layout, nextKey).some((neighborKey) => !local.trail.includes(neighborKey));
-      local.feedback = hasForwardOption
-        ? { text: "Sigue buscando la salida.", type: "info" }
-        : showMistakeFeedback("Llegaste a un desvío.");
       renderMazeActivity();
+    }
+
+    function findMazePath(fromKey, toKey, layout, currentTrail) {
+      // Búsqueda en anchura (BFS) para encontrar el camino entre dos puntos en el laberinto
+      const queue = [[fromKey]];
+      const visited = new Set([fromKey]);
+      // No queremos que el path-finding atraviese el trail actual de forma extraña, 
+      // pero debe permitir retroceder. Para simplificar, solo buscamos por celdas blancas.
+
+      while (queue.length > 0) {
+        const path = queue.shift();
+        const current = path[path.length - 1];
+
+        if (current === toKey) {
+          return path.slice(1); // Retornamos el camino sin la celda inicial
+        }
+
+        const neighbors = getWalkableNeighbors(layout, current);
+        for (const neighbor of neighbors) {
+          if (!visited.has(neighbor)) {
+            visited.add(neighbor);
+            queue.push([...path, neighbor]);
+          }
+        }
+      }
+      return null;
     }
 
     function isAdjacentCell(fromKey, toKey) {
@@ -2921,7 +3491,11 @@
         state.stars = state.completed.size;
         renderStars();
       }
-      state.pendingCelebration = true;
+
+      // Lanzamos la celebración visual después de un pequeño delay
+      setTimeout(() => {
+        showCompletionCelebration();
+      }, 500);
     }
 
     function showCompletionCelebration() {
@@ -3008,4 +3582,5 @@
     renderStars();
   </script>
 </body>
+
 </html>
